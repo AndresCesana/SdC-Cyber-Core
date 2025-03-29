@@ -2,22 +2,28 @@ name: Sync Fork with Upstream
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # Se ejecuta una vez al día (a medianoche UTC)
-  workflow_dispatch:  # Permite ejecutarlo manualmente cuando quieras
+    - cron: '0 0 * * *'  # Ejecuta el workflow una vez al día (medianoche UTC)
+  workflow_dispatch:  # Permite ejecutar el workflow manualmente desde la interfaz de GitHub
 
 jobs:
   sync:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Utiliza una máquina virtual Ubuntu para ejecutar el trabajo
+
     steps:
       - name: Checkout the fork
         uses: actions/checkout@v3
         with:
-          persist-credentials: false
+          persist-credentials: false  # Evita que se usen las credenciales de la acción para realizar commits
+
+      - name: Set up git
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
 
       - name: Add upstream repository
         run: |
-          git remote add upstream https://github.com/solnou/SdC-Cyber-Core.git
-          git fetch upstream
-          git checkout main
-          git merge upstream/main
-          git push origin main
+          git remote -v || git remote add upstream https://github.com/solnou/SdC-Cyber-Core.git  # Agrega upstream si no existe
+          git fetch upstream  # Obtiene los cambios del repositorio original
+          git checkout main  # Cambia a la rama principal
+          git merge upstream/main --allow-unrelated-histories  # Fusiona los cambios, forzando la aceptación de historias no relacionadas
+          git push origin main  # Sube los cambios fusionados a tu repositorio en GitHub
