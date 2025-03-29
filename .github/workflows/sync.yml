@@ -19,7 +19,7 @@ jobs:
     - name: Merge upstream changes into local branch
       run: |
         git checkout main
-        git merge upstream/main
+        git merge upstream/main --allow-unrelated-histories
 
     - name: Push changes to origin
       run: |
