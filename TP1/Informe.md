@@ -4,9 +4,6 @@
 **Alumnos:** Cesana Andrés Agustín, Felipe Pillichody, Sol Agustina Nou  
 **Profesores:** Jorge Javier Alejandro, Solinas Miguel Ángel  
 
-## Introducción
-
-...
 
 ## Marco teórico
 
@@ -201,3 +198,56 @@ El **Intel Core i5-13600K es el más eficiente en relación costo-rendimiento**.
 En términos de **máximo rendimiento absoluto**, el **Ryzen 9 7950X** es la mejor opción.  
 En términos de **mejor eficiencia por costo**, el **i5-13600K** es la mejor opción.
 
+# Prueba de performance de un microprocesador
+En este apartado, utilizamos un controlador Arduino Uno con un procesador ATmega328, que por defecto opera con un clock de 16 MHz. Se desarrolló un código que ejecuta una serie de sumas en un bucle, permitiendo modificar además la frecuencia del clock por software mediante el prescaler.
+
+El código empleado es el siguiente:
+
+```
+  
+#include <avr/power.h>
+
+void setup() {
+    Serial.begin(9600);
+    while (!Serial);
+
+    Serial.println("Ejecutando pruebas con diferentes frecuencias...");
+
+    // Vamos comentando y descomentando de a una las funciones para hacer distintas ejecuciones
+
+    pruebaFrecuencia(clock_div_1, "16 MHz");
+
+    //pruebaFrecuencia(clock_div_2, "8 MHz");
+    
+    //pruebaFrecuencia(clock_div_4, "4 MHz");
+
+}
+
+void pruebaFrecuencia(uint8_t prescaler, const char* frecuenciaTexto) {
+  
+    clock_prescale_set(prescaler);
+    delay(100);
+    Serial.begin(9600);
+
+    Serial.print("Frecuencia actual: ");
+    Serial.println(frecuenciaTexto);
+
+    Serial.println(Inicio de la prueba);  // Timestamp antes de ejecutar la prueba
+
+    volatile unsigned long sumInt = 0;
+    for (unsigned long i = 0; i < 5000000; i++) {
+        sumInt += i;
+    }
+
+    Serial.println(Fin de la prueba);  // Timestamp después de ejecutar la prueba
+
+    Serial.println("---------------------------");
+}
+
+void loop() {}
+```
+Este código se ejecutó variando la frecuencia del clock de 16 MHz a 8 MHz y 4 MHz, obteniendo los siguientes resultados:
+
+![Evolución del tiempo de ejecución del programa](images/Gráfico.png)
+ 
+Esta gráfica se generó a partir de los logs obtenidos con el programa RealTerm, el cual nos permitió añadir una marca de tiempo (YMDHS) a cada línea de salida de la terminal. Dado que esta funcionalidad no está disponible de forma nativa en el IDE de Arduino, utilizamos RealTerm como alternativa. Los registros recopilados se encuentran en el archivo **capturesarduino.txt**, disponible en este repositorio.
