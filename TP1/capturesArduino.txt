@@ -1,0 +1,15 @@
+"30/3/2025 18:55:00",Ejecutando pruebas con diferentes frecuencias...
+"30/3/2025 18:55:00",Frecuencia actual: 16 MHz
+"30/3/2025 18:55:00",Inicio de la prueba
+"30/3/2025 18:55:10",Fin de la prueba
+"30/3/2025 18:55:10",---------------------------
+"30/3/2025 18:58:54",”«ÕÑ…¹‘½pruebas con diferentes frecuencias...
+"30/3/2025 18:58:54",Frecuencia actual: 8 MHz
+"30/3/2025 18:58:54",Inicio de la prueba
+"30/3/2025 18:59:14",Fin de la prueba
+"30/3/2025 18:59:14",---------------------------
+"30/3/2025 19:03:07",”«ÕÑ…¹‘½pruebas con diferentes frecuencias...
+"30/3/2025 19:03:08",Frecuencia actual: 4 MHz
+"30/3/2025 19:03:08",Inicio de la prueba
+"30/3/2025 19:03:48",Fin de la prueba
+"30/3/2025 19:03:48",---------------------------
