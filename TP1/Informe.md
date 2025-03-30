@@ -63,15 +63,26 @@ La página OpenBenchmarking proporciona comparaciones detalladas del rendimiento
 - **defconfig**: Utiliza la configuración predeterminada, resultando en una compilación más liviana.
 
 ### Comparación de rendimiento en distintos escenarios:
-![Gráfica de rendimiento de CPU](images/image_1)
-![Gráfica de rendimiento de CPU](images/image_2)
-| Configuración | Intel Core i5-13600K | AMD Ryzen 9 5900X | Diferencia |
-|--------------|------------------|------------------|------------|
-| Kernel 5.18 (allmodconfig) | 0.001431 comp/s | 0.001291 comp/s | +10% |
-| Kernel 6.1 (defconfig) | 0.013891 comp/s | 0.013161 comp/s | +5% |
-| Kernel 6.1 (allmodconfig) | 0.001181 comp/s | 0.001111 comp/s | +6% |
-| Kernel 6.8 (defconfig) | 0.012051 comp/s | 0.010311 comp/s | +14% |
-| Kernel 6.8 (allmodconfig) | 0.0009141 comp/s | 0.0007641 comp/s | +16% |
+
+![Gráfica de rendimiento de CPU](images/image_1.png)
+![Gráfica de rendimiento de CPU](images/image_2.png)
+
+## Comparación de rendimiento en distintos escenarios:
+
+El rendimiento se calcula como:
+
+$$
+\text{Rendimiento} = \frac{1}{\text{Tiempo de compilación}}
+$$
+
+
+| Configuración | Intel Core i5-13600K (Tiempo en s) | Intel Core i5-13600K (Comp/s) | AMD Ryzen 9 5900X (Tiempo en s) | AMD Ryzen 9 5900X (Comp/s) | Diferencia |
+|--------------|------------------|------------------|------------------|------------------|------------|
+| Kernel 5.18 (allmodconfig) | 700 | 0.001431 | 775 | 0.001291 | +10% |
+| Kernel 6.1 (defconfig) | 72 | 0.013891 | 76 | 0.013161 | +5% |
+| Kernel 6.1 (allmodconfig) | 846 | 0.001181 | 901 | 0.001111 | +6% |
+| Kernel 6.8 (defconfig) | 83 | 0.012051 | 97 | 0.010311 | +14% |
+| Kernel 6.8 (allmodconfig) | 1094 | 0.0009141 | 1309 | 0.0007641 | +16% |
 
 En todas las pruebas de compilación del Kernel de Linux (5.18, 6.1 y 6.8), el **Intel Core i5-13600K** supera consistentemente al **AMD Ryzen 9 5900X**.
 
