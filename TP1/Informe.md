@@ -24,7 +24,7 @@ El time profiling es una técnica utilizada en la evaluación del rendimiento de
 
 ## Desarrollo
 
-A continuación, haremos una lista de las tareas que realizamos cada uno con su computadora diariamente y cuáles podrían llegar a medir mejor las tareas que ustedes realizan a diario.
+A continuación, haremos una lista de las tareas que realizamos cada uno con su computadora diariamente y cuáles benchmark podrían llegar a medir mejor las tareas que ustedes realizan a diario.
 
 | Tarea | Benchmark |
 |--------|-------------|
@@ -65,7 +65,7 @@ La página OpenBenchmarking proporciona comparaciones detalladas del rendimiento
 ## Comparación de rendimiento en distintos escenarios:
 
 ![Gráfica de rendimiento de CPU](images/image_1.png)
-![Gráfica de rendimiento de CPU](images/image_2.png)
+
 
 
 
@@ -95,7 +95,7 @@ Ahora nos interesa conocer cuál es el speedup cuando pasamos a usar un AMD Ryze
 
 Para ello, se elige la compilación del kernel 6.1 (allmodconfig) para comparar con los resultados previos:
 
-
+![Gráfica de rendimiento de CPU](images/image_2.png)
 
 ### 1. Cálculo del Speedup
 
@@ -131,7 +131,7 @@ Speedup respecto al i5-13600K:
 \text{Speedup}_{7950X/13600K} = \frac{0.001953125}{0.001181} = 1.65
 ```
 
-## #2. Cálculo de la Eficiencia en el Uso de Núcleos  
+### 2. Cálculo de la Eficiencia en el Uso de Núcleos  
 La eficiencia en el uso de los núcleos se calcula como:
 
 ```math
