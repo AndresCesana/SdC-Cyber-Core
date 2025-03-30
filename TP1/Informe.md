@@ -62,12 +62,12 @@ La página OpenBenchmarking proporciona comparaciones detalladas del rendimiento
 - **allmodconfig**: Habilita todas las opciones y módulos del kernel, generando una carga de compilación más exigente.
 - **defconfig**: Utiliza la configuración predeterminada, resultando en una compilación más liviana.
 
-### Comparación de rendimiento en distintos escenarios:
+## Comparación de rendimiento en distintos escenarios:
 
 ![Gráfica de rendimiento de CPU](images/image_1.png)
 ![Gráfica de rendimiento de CPU](images/image_2.png)
 
-## Comparación de rendimiento en distintos escenarios:
+
 
 El rendimiento se calcula como:
 
@@ -87,3 +87,117 @@ $$
 En todas las pruebas de compilación del Kernel de Linux (5.18, 6.1 y 6.8), el **Intel Core i5-13600K** supera consistentemente al **AMD Ryzen 9 5900X**.
 
 Las diferencias son menores en **defconfig**, que representa configuraciones estándar, pero se amplían en **allmodconfig**, donde el Intel demuestra mayor eficiencia en cargas de compilación pesadas.
+
+---
+
+
+Ahora nos interesa conocer cuál es el speedup cuando pasamos a usar un AMD Ryzen 9 7950X 16-Core. Además, nos interesa saber cuál de ellos hace un uso más eficiente de la cantidad de núcleos que tiene y cuál es más eficiente en términos de costo.
+
+Para ello, se elige la compilación del kernel 6.1 (allmodconfig) para comparar con los resultados previos:
+
+
+
+### 1. Cálculo del Speedup
+
+El **speedup** se define como:
+
+```math
+\text{Speedup} = \frac{\text{Rendimiento del procesador más rápido}}{\text{Rendimiento del procesador de referencia}}
+```
+
+Dado que el rendimiento se mide en compilaciones por segundo, tenemos:
+
+```math
+\text{Rendimiento del AMD Ryzen 9 7950X} = \frac{1}{512} = 0.001953125
+```
+
+```math
+\text{Rendimiento del AMD Ryzen 9 5900X} = \frac{1}{901} = 0.001111
+```
+
+```math
+\text{Rendimiento del Intel Core i5-13600K} = \frac{1}{846} = 0.001181
+```
+
+Speedup respecto al Ryzen 9 5900X:
+
+```math
+\text{Speedup}_{7950X/5900X} = \frac{0.001953125}{0.001111} = 1.76
+```
+
+Speedup respecto al i5-13600K:
+
+```math
+\text{Speedup}_{7950X/13600K} = \frac{0.001953125}{0.001181} = 1.65
+```
+
+## #2. Cálculo de la Eficiencia en el Uso de Núcleos  
+La eficiencia en el uso de los núcleos se calcula como:
+
+```math
+\text{Eficiencia} = \frac{\text{Rendimiento}}{\text{Número de núcleos}}
+```
+
+Dado que los procesadores tienen:
+
+- **Intel Core i5-13600K** → 14 núcleos  
+- **AMD Ryzen 9 5900X** → 12 núcleos  
+- **AMD Ryzen 9 7950X** → 16 núcleos  
+
+Calculamos la eficiencia:
+
+```math
+\text{Eficiencia}_{i5-13600K} = \frac{0.001181}{14} = 8.44 \times 10^{-5}
+```
+
+```math
+\text{Eficiencia}_{5900X} = \frac{0.001111}{12} = 9.25 \times 10^{-5}
+```
+
+```math
+\text{Eficiencia}_{7950X} = \frac{0.001953125}{16} = 1.22 \times 10^{-4}
+```
+
+El **Ryzen 9 7950X es el más eficiente en uso de núcleos**.
+
+
+
+### 3. Eficiencia en términos de costo  
+Se calcula como:
+
+```math
+\text{Eficiencia por costo} = \frac{\text{Rendimiento}}{\text{Precio en dólares}}
+```
+
+Dado que los precios en Amazon son:
+
+- **Intel Core i5-13600K** → $230  
+- **AMD Ryzen 9 5900X** → $350  
+- **AMD Ryzen 9 7950X** → $462  
+
+Calculamos:
+
+```math
+\text{Eficiencia}_{i5-13600K} = \frac{0.001181}{230} = 5.14 \times 10^{-6}
+```
+
+```math
+\text{Eficiencia}_{5900X} = \frac{0.001111}{350} = 3.17 \times 10^{-6}
+```
+
+```math
+\text{Eficiencia}_{7950X} = \frac{0.001953125}{462} = 4.23 \times 10^{-6}
+```
+
+El **Intel Core i5-13600K es el más eficiente en relación costo-rendimiento**.
+
+
+
+### Conclusiones  
+1. **El AMD Ryzen 9 7950X tiene el mejor rendimiento absoluto**, con un speedup de **1.76x sobre el Ryzen 9 5900X** y **1.65x sobre el i5-13600K**.  
+2. **El AMD Ryzen 9 7950X usa mejor sus núcleos**, con la mayor eficiencia por núcleo.  
+3. **El Intel Core i5-13600K es la opción más eficiente en costo-rendimiento**, ofreciendo más rendimiento por dólar.  
+
+En términos de **máximo rendimiento absoluto**, el **Ryzen 9 7950X** es la mejor opción.  
+En términos de **mejor eficiencia por costo**, el **i5-13600K** es la mejor opción.
+
