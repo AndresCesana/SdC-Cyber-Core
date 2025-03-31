@@ -252,6 +252,15 @@ Este código se ejecutó variando la frecuencia del clock de 16 MHz a 8 MHz y 4 
  
 Esta gráfica se generó a partir de los logs obtenidos con el programa RealTerm, el cual nos permitió añadir una marca de tiempo (YMDHS) a cada línea de salida de la terminal. Dado que esta funcionalidad no está disponible de forma nativa en el IDE de Arduino, utilizamos RealTerm como alternativa. Los registros recopilados se encuentran en el archivo **capturesarduino.txt**, disponible en este repositorio.
 
+### Conclusiones  
+
+En esta prueba de performance, se observó que el tiempo de ejecución del código aumentó proporcionalmente a la reducción de la frecuencia del clock del microprocesador. A 16 MHz, la ejecución tomó 10 segundos; al reducir la frecuencia a 8 MHz, el tiempo se duplicó a 20 segundos; y con 4 MHz, se cuadruplicó a 40 segundos. Estos resultados confirman la relación directa entre la velocidad del reloj y el rendimiento del procesador, evidenciando que una menor frecuencia implica una ejecución más lenta debido a la menor cantidad de ciclos de instrucción por unidad de tiempo.
+
+Además, este comportamiento es consistente con la teoría del rendimiento en microprocesadores, donde el tiempo de ejecución de un programa depende del número total de instrucciones, los ciclos de reloj por instrucción (CPI) y la frecuencia del clock. Dado que en este caso la cantidad de instrucciones y el CPI permanecen constantes, la variación del rendimiento está determinada exclusivamente por la frecuencia del reloj. Esto también sugiere que, si bien reducir la frecuencia puede ser útil para disminuir el consumo energético y la generación de calor, conlleva una penalización en el tiempo de ejecución, lo que es un factor clave a considerar en aplicaciones donde el tiempo de respuesta es crítico.
+
+$$
+\text{Tiempo de ejecución} = \frac{\text{Instrucciones totales} \times \text{CPI}}{\text{Frecuencia del clock}}
+$$
 
 # Time Profiling
 
@@ -361,6 +370,12 @@ Esto genera un archivo perf.data, que luego se analiza con:
 ![Generar grafico](images/timeprof10.png)
 
 El reporte obtenido proporciona estadísticas detalladas sobre el tiempo de ejecución de cada función y permite detectar posibles optimizaciones ad
+
+### Conclusiones  
+
+El análisis muestra que el Intel i5-1135G7 (Andrés) tuvo el mayor tiempo de ejecución con 0,2893 segundos, mientras que el AMD Ryzen 7 5700U (Sol) y el Intel i7-7500U (Felipe) registraron 0,1298 y 0,1246 segundos, respectivamente.
+
+Dado que los tres procesadores ejecutaron el mismo código, estas diferencias pueden deberse a factores como la frecuencia base, la eficiencia por ciclo de instrucción (IPC) y la gestión térmica. A pesar de tener más núcleos, el i5-1135G7 mostró un rendimiento inferior en esta prueba, lo que sugiere que la carga de trabajo no aprovechó completamente el paralelismo o que su frecuencia efectiva fue menor durante la ejecución.
 
 
 
