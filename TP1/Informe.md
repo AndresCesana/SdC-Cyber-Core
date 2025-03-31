@@ -273,13 +273,13 @@ Para poder analizar el rendimiento del código, primero se compiló el programa 
 
 ```
 $ gcc -Wall -pg test_gprof.c test_gprof_new.c -o test_gprof
+$ ls
 ```
 ![Compilación del código con perfiles](images/timeprof1.png)
 
 ### Paso 2: ejecución del programa
 Una vez compilado, se ejecutó el archivo binario para generar datos de perfilado.
 ```
-$ ls
 $ ./test_gprof 
 $ ls
 ```
