@@ -251,3 +251,116 @@ Este código se ejecutó variando la frecuencia del clock de 16 MHz a 8 MHz y 4 
 ![Evolución del tiempo de ejecución del programa](images/Gráfico.png)
  
 Esta gráfica se generó a partir de los logs obtenidos con el programa RealTerm, el cual nos permitió añadir una marca de tiempo (YMDHS) a cada línea de salida de la terminal. Dado que esta funcionalidad no está disponible de forma nativa en el IDE de Arduino, utilizamos RealTerm como alternativa. Los registros recopilados se encuentran en el archivo **capturesarduino.txt**, disponible en este repositorio.
+
+
+# Time Profiling
+
+En esta sección se busca documentar el proceso de análisis de rendimiento de funciones en un programa mediante técnicas de time profiling. Para ello, se siguió el tutorial "Time Profiling" y se aplicó la herramienta gprof para medir el tiempo de ejecución de las funciones de un programa. Lo que se debe realizar es:
+- Habilitar “profiling” durante la compilación
+- Ejecutar el código del programa para producir los datos de perfil
+- Ejecute la herramienta gprof en el archivo de datos de generación de perfiles (generado en el paso anterior).
+
+Del último paso obtendremos un archivo de análisis legible.
+
+Este apartado contiene una descripción de los pasos realizados, junto con los resultados obtenidos en el análisis del tiempo de ejecución de cada función. 
+
+## Seguimiento del tutorial
+
+Para el desarrollo se usarán los códigos cargados en este repositorio [test_gprof.c](test_gprof.c) y [test_gprof_new.c](test_gprof_new.c)
+
+### Paso 1: creación de perfiles habilitada durante la compilación
+Para poder analizar el rendimiento del código, primero se compiló el programa con la opción -pg de gcc, que permite generar información de perfilado.
+
+```
+$ gcc -Wall -pg test_gprof.c test_gprof_new.c -o test_gprof
+```
+![Compilación del código con perfiles](images/timeprof1.png)
+
+### Paso 2: ejecución del programa
+Una vez compilado, se ejecutó el archivo binario para generar datos de perfilado.
+```
+$ ls
+$ ./test_gprof 
+$ ls
+```
+![Ejecucion y reporte de la ejecucion](images/timeprof2.png)
+
+### Paso 3: uso de la herramienta gprof
+
+Para analizar el rendimiento del programa, se utilizó gprof para generar un informe detallado del tiempo de ejecución de cada función.
+```
+$  gprof test_gprof gmon.out > analysis_nombreIntegranteGrupo.txt
+$ ls
+```
+Este comando genera un archivo analysis.txt con información sobre el tiempo de ejecución de cada función y la estructura de llamadas.
+
+![Generacion del informe](images/timeprof3.png)
+
+### Personalizar la salida con flags
+
+Para obtener un análisis mas detallado hay distintas flags que podemos utilizar. Algunas de ellas:
+
+1. Suprima la impresión de funciones declaradas estáticamente (privadas) 
+  ```
+  $ gprof -a test_gprof gmon.out > analysis_nombreIntegranteGrupo.txt
+  ```
+![flag 1](images/timeprof4.png)
+
+2. Elimine los textos detallados 
+  ```
+  $ gprof -b test_gprof gmon.out > analysis_nombreIntegranteGrupo.txt
+  ```
+![flag 1](images/timeprof5.png)
+
+3. Imprimir solo perfil plano 
+   ```
+   $ gprof -b test_gprof gmon.out > analysis_nombreIntegranteGrupo.txt
+   ```
+![flag 1](images/timeprof6.png)
+
+4. Imprimir información relacionada con funciones específicas en perfil plano
+   ```
+   $ gprof -pfunc1 -b test_gprof gmon.out > analysis_nombreIntegranteGrupo.txt
+   ```
+![flag 1](images/timeprof7.png)
+
+
+### Generar un gráfico
+Para visualizar mejor el flujo del programa, se utilizó gprof2dot junto con dot para generar gráficos:
+```
+$ gprof test_gprof gmon.out | python3 -m gprof2dot -o output.dot
+$ dot -Tpng output.dot -o profile_nombreIntegranteGrupo.png
+$ xdg-open profile_nombreIntegranteGrupo.png
+```
+![Generar grafico](images/timeprof8.png)
+
+![grafico](images/profile_sol.png)
+
+El archivo muestra un diagrama de llamadas entre funciones, facilitando la identificación de los cuellos de botella.
+
+## Profiling con linux perf
+
+Otra herramienta utilizada fue perf, que permite analizar el rendimiento del programa de manera más detallada y con menos overhead que gprof
+
+### Instalación
+```
+$ sudo apt install linux-tools-common
+$ sudo apt install linux-tools-5.19.0-35-generic
+```
+
+## Ejecución
+```
+ $ sudo perf record ./test_gprof
+```
+![Generar grafico](images/timeprof9.png)
+
+Esto genera un archivo perf.data, que luego se analiza con:
+```
+ $ sudo perf report
+```
+![Generar grafico](images/timeprof10.png)
+
+El reporte obtenido proporciona estadísticas detalladas sobre el tiempo de ejecución de cada función y permite detectar posibles optimizaciones ad
+
+
+
