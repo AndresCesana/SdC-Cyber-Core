@@ -59,8 +59,9 @@ double* extract_gini_values(const char* json_text, int* out_count) {
     return values;
 }
 
-// Assembly function declaration
+// Assembly functions declarations
 extern void convert_to_ints(double* in, int* out, int count);
+extern int average_of_ints(double* in, int count);
 
 int main(void)
 {
@@ -94,22 +95,35 @@ int main(void)
 
     if (!values) return 1;
 
-    double sum = 0;
+    double sum = 0.0;
+
+    printf("Array of values: [");
     for (int i = 0; i < count; i++) {
+        printf("%.2f%s", values[i], (i < count - 1) ? ", " : "");
         sum += values[i];
     }
-
-    printf("Gini value count: %d\n", count);
-    printf("Sum of Gini values: %.2f\n", sum);
+    printf("]\n");
+    printf("Average of Gini values: %.2f\n", sum / count);
 
     // Allocate and convert to integers via NASM
     int* int_values = malloc(count * sizeof(int));
     convert_to_ints(values, int_values, count);
-
+    
+    
     printf("\nInteger-converted values:\n");
     for (int i = 0; i < count; i++) {
         printf("int_values[%d] = %d\n", i, int_values[i]);
     }
+
+    int avg = average_of_ints(values, count);
+    if (avg == -1) {
+        fprintf(stderr, "Error: Division by zero in average_of_ints\n");
+        free(values);
+        free(int_values);
+        curl_global_cleanup();
+        return 1;
+    }
+    printf("\nAverage of integer values (ASM): %d\n", avg);
 
     free(values);
     free(int_values);

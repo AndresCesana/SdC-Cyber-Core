@@ -1,0 +1,38 @@
+ Step-by-Step Breakdown
+Memory Struct + Callback
+
+You define a MemoryStruct to store the downloaded JSON as a string.
+
+The WriteMemoryCallback appends received data into a dynamically-growing buffer via realloc.
+
+API Request with libcurl
+
+Configures curl to download data from the World Bank API.
+
+Stores the entire response in chunk.memory.
+
+JSON Parsing (with cJSON)
+
+Parses the response into a cJSON object.
+
+Extracts the second element (data[1]) of the top-level array (because the World Bank API returns [metadata, data[]]).
+
+Loops through the array, extracting "value" fields (if present and numeric).
+
+Stores those as double in a dynamically-allocated array.
+
+Prints the Float Array
+
+Prints all valid Gini values from 2011 to 2022.
+
+Calculates the average.
+
+Integer Conversion
+
+Converts double array to int manually.
+
+Prints each value and (mistakenly) reuses the float average instead of computing int average.
+
+Cleanup
+
+Frees memory.

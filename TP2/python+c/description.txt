@@ -1,0 +1,18 @@
+Python:
+
+Fetch API, extract the float array.
+
+Print the array of floats.
+
+Pass it to C.
+
+C:
+
+Receive the array of floats.
+
+Convert it into an array of ints (internally).
+
+Print that array of ints from within C.
+
+Compute and print the average (from the int array).
+
