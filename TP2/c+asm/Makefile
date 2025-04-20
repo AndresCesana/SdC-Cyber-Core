@@ -1,15 +1,15 @@
 CC = gcc
 ASM = nasm
-CFLAGS = -Wall -O2 -m64
-LDFLAGS = -lcurl -lcjson
+CFLAGS = -Wall -O2 -m32 -fno-pie -no-pie
+LDFLAGS = -lcurl -lm -lcjson 
 
-all: gini
+all: main
 
-gini: main.c gini.o
-	$(CC) $(CFLAGS) -no-pie -o gini main.c gini.o $(LDFLAGS)
+main: main.c suma.o
+	$(CC) $(CFLAGS) -g -o main main.c suma.o $(LDFLAGS)
 
-gini.o: gini.asm
-	$(ASM) -f elf64 gini.asm -o gini.o
+suma.o: suma.asm
+	$(ASM) -f elf32 suma.asm -o suma.o
 
 clean:
-	rm -f gini gini.o
+	rm -f main suma.o gmon.out

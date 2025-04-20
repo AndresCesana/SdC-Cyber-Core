@@ -1,26 +1,26 @@
 import requests
 
 # Fetch GINI data
-country_code = input("Enter the country code (e.g., AR for Argentina): ").upper()
-url = f"https://api.worldbank.org/v2/en/country/{country_code}/indicator/SI.POV.GINI?format=json&date=2011:2022"
+url = f"https://api.worldbank.org/v2/en/country/AR/indicator/SI.POV.GINI?format=json&date=2011:2022"
 response = requests.get(url)
 
 if response.status_code == 200:
     data = response.json()
     raw_values = [entry['value'] for entry in data[1] if 'value' in entry and entry['value'] is not None]
 
-    print(f"\nFloat array from API (GINI index): {raw_values}")
-    average = sum(raw_values) / len(raw_values)
-    print(f"Average GINI index from 2011 to 2022: {average:.2f}")
-
+    print(f"Float array from API (GINI index): {raw_values}")
+    
+    # Increment each value in raw_values by 1
+    raw_values_incremented = [value + 1 for value in raw_values]
+    print(f"Float values incremented by 1: {raw_values_incremented}")
 
     # Convert array to ints
-    int_values = [int(value) for value in raw_values]
-    print(f"\nInt array from API (GINI index): {int_values}")
+    int_values = [round(value) for value in raw_values]
+    print(f"\nInteger-converted values: {int_values}")
 
-    # Calculate average of int values
-    average_int = sum(int_values) / len(int_values)
-    print(f"Average GINI index from 2011 to 2022 (int): {average_int:.2f}")
+    # Increment each value in int_values by 1
+    int_values_incremented = [value + 1 for value in int_values]
+    print(f"Integer values incremented by 1: {int_values_incremented}")
 
 
 else:
