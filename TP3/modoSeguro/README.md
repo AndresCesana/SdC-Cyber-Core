@@ -1,23 +1,23 @@
-Este código muestra cómo pasar de modo real a modo protegido en x86.
+El código `boot.asm` muestra cómo pasar de modo real a modo protegido en x86.
 
 
 ##  Cómo compilar y ejecutar
 
 Compilar el archivo ensamblador `boot.asm` y generar la imagen binaria:
 
-```
+``` bash
 nasm -f bin boot.asm -o boot.img
 
 ```
 Ejecutar en QEMU:
-```
 
-`qemu-system-i386 -fda boot.img` 
+``` bash
+qemu-system-i386 -fda boot.img`
 ```
 
 ##  Cómo debuggear con QEMU y GDB
 
-1.  Iniciar QEMU con un puerto de depuración habilitado (ej. puerto 1234):
+1.  Iniciar QEMU con un puerto de depuración habilitado:
    
 ```
 qemu-system-i386 -fda boot.img -boot a -s -S -monitor stdio
