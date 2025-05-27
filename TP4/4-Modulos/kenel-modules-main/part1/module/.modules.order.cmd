@@ -1,0 +1,1 @@
+savedcmd_/home/sol/Documentos/SdC-Cyber-Core/TP4/4-Modulos/kenel-modules-main/part1/module/modules.order := {   echo /home/sol/Documentos/SdC-Cyber-Core/TP4/4-Modulos/kenel-modules-main/part1/module/mimodulo.o; :; } > /home/sol/Documentos/SdC-Cyber-Core/TP4/4-Modulos/kenel-modules-main/part1/module/modules.order

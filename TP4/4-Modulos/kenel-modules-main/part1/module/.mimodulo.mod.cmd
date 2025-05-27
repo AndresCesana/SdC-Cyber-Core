@@ -1,0 +1,1 @@
+savedcmd_/home/sol/Documentos/SdC-Cyber-Core/TP4/4-Modulos/kenel-modules-main/part1/module/mimodulo.mod := printf '%s\n'   mimodulo.o | awk '!x[$$0]++ { print("/home/sol/Documentos/SdC-Cyber-Core/TP4/4-Modulos/kenel-modules-main/part1/module/"$$0) }' > /home/sol/Documentos/SdC-Cyber-Core/TP4/4-Modulos/kenel-modules-main/part1/module/mimodulo.mod
