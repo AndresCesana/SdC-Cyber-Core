@@ -41,3 +41,10 @@ build/
 # Specific
 CMakeUserPresets.json
 .pre-commit-config.yaml
+**/*.ko
+**/*.o
+**/*.mod*
+**/*.cmd
+**/Module.symvers
+**/modules.order
+**/.tmp_versions/

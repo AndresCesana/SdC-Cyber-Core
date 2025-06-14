@@ -1,60 +1,62 @@
-Script started on 2025-06-14 13:29:01-03:00 [TERM="xterm-256color" TTY="/dev/pts/1" COLUMNS="80" LINES="24"]
-[?2004h]0;andresces@andresces-IdeaPad-3-15ITL6: ~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo[01;32mandresces@andresces-IdeaPad-3-15ITL6[00m:[01;34m~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo[00m$ 
-[?2004l[?2004h]0;andresces@andresces-IdeaPad-3-15ITL6: ~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo[01;32mandresces@andresces-IdeaPad-3-15ITL6[00m:[01;34m~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo[00m$ 
-[?2004l[?2004h]0;andresces@andresces-IdeaPad-3-15ITL6: ~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo[01;32mandresces@andresces-IdeaPad-3-15ITL6[00m:[01;34m~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo[00m$ 
-[?2004l[?2004h]0;andresces@andresces-IdeaPad-3-15ITL6: ~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo[01;32mandresces@andresces-IdeaPad-3-15ITL6[00m:[01;34m~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo[00m$ 
-[?2004l[?2004h]0;andresces@andresces-IdeaPad-3-15ITL6: ~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo[01;32mandresces@andresces-IdeaPad-3-15ITL6[00m:[01;34m~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo[00m$ 
-[?2004l[?2004h]0;andresces@andresces-IdeaPad-3-15ITL6: ~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo[01;32mandresces@andresces-IdeaPad-3-15ITL6[00m:[01;34m~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo[00m$ 
-[?2004l[?2004h]0;andresces@andresces-IdeaPad-3-15ITL6: ~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo[01;32mandresces@andresces-IdeaPad-3-15ITL6[00m:[01;34m~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo[00m$ 
-[?2004l[?2004h]0;andresces@andresces-IdeaPad-3-15ITL6: ~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo[01;32mandresces@andresces-IdeaPad-3-15ITL6[00m:[01;34m~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo[00m$ 
-[?2004l[?2004h]0;andresces@andresces-IdeaPad-3-15ITL6: ~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo[01;32mandresces@andresces-IdeaPad-3-15ITL6[00m:[01;34m~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo[00m$ 
-[?2004l[?2004h]0;andresces@andresces-IdeaPad-3-15ITL6: ~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo[01;32mandresces@andresces-IdeaPad-3-15ITL6[00m:[01;34m~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo[00m$ [7mcd ../txt[27m
-[7mcol -b < drive_2.txt > drive_2_clean.txt[27m
-[A[A[C[C[C[Ccd ../txt
-col -b < drive_2.txt > drive_2_clean.txt
+Script started on 2025-06-14 13:35:25-03:00 [TERM="xterm-256color" TTY="/dev/pts/2" COLUMNS="80" LINES="24"]
+[?2004h]0;andresces@andresces-IdeaPad-3-15ITL6: ~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo[01;32mandresces@andresces-IdeaPad-3-15ITL6[00m:[01;34m~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo[00m$ [7mmake clean[27m
+[7mmake[27m
+[7msudo insmod drv2.ko[27m
+[7msudo dmesg | tail -5                     # apunta MAJOR  ➜ ej. 511[27m
+
+[7msudo mknod /dev/SdeC_drv2_0 c 511 0[27m
+[7msudo mknod /dev/SdeC_drv2_1 c 511 1[27m
+[7msudo mknod /dev/SdeC_drv2_2 c 511 2[27m
+[7mls -l /dev/SdeC_drv2_*[27m
+
+[7msudo rmmod drv2[27m
+[7msudo rm /dev/SdeC_drv2_{0,1,2}[27m
+[7msudo dmesg | tail -5[27m
+[7mexit                                      # ← Cierra script □[27m
+[A[A[A[A[A[A[A[A[A[A[A[A[A[A[C[C[C[Cmake clean
+make
+sudo insmod drv2.ko
+sudo dmesg | tail -5                     # apunta MAJOR  ➜ ej. 511
+
+sudo mknod /dev/SdeC_drv2_0 c 511 0
+sudo mknod /dev/SdeC_drv2_1 c 511 1
+sudo mknod /dev/SdeC_drv2_2 c 511 2
+ls -l /dev/SdeC_drv2_*
+
+sudo rmmod drv2
+sudo rm /dev/SdeC_drv2_{0,1,2}
+sudo dmesg | tail -5
+exit                                      # ← Cierra script □
 [A
-[?2004l[?2004h]0;andresces@andresces-IdeaPad-3-15ITL6: ~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/txt[01;32mandresces@andresces-IdeaPad-3-15ITL6[00m:[01;34m~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/txt[00m$ git add
-[?2004lNada especificado, nada agregado.
-[33mayuda: ¿Tal vez quisiste decir 'git add .'?[m
-[33mayuda: Desactiva este mensage ejecutando[m
-[33mayuda: "git config advice.addEmptyPathspec false"[m
-[?2004h]0;andresces@andresces-IdeaPad-3-15ITL6: ~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/txt[01;32mandresces@andresces-IdeaPad-3-15ITL6[00m:[01;34m~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/txt[00m$ fi[K[Kgit add .
-[?2004l[?2004h]0;andresces@andresces-IdeaPad-3-15ITL6: ~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/txt[01;32mandresces@andresces-IdeaPad-3-15ITL6[00m:[01;34m~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/txt[00m$ git commit
-[?2004layuda: Esperando que tu editor cierre el archivo ... [?2004h[?1049h[22;0;0t[1;24r(B[m[4l[?7h[39;49m[?1h=[?1h=[?25l[39;49m(B[m[H[2J[22;34H(B[0;7m[ Leyendo... ](B[m[22;31H(B[0;7m[ 12 líneas leídas ](B[m[H(B[0;7m    /home/andresces/TP5-SdC1/src/SdC-Cyber-Core/.git/COMMIT_EDITMSG             [1;79H(B[m[23d(B[0;7m^G(B[m Ayuda     (B[0;7m^O(B[m Guardar   (B[0;7m^W(B[m Buscar    (B[0;7m^K(B[m Cortar    (B[0;7m^T(B[m Ejecutar  (B[0;7m^C(B[m Ubicación[24d(B[0;7m^X(B[m Salir     (B[0;7m^R(B[m Leer fich.(B[0;7m^\(B[m Reemplazar(B[0;7m^U(B[m Pegar     (B[0;7m^J(B[m Justificar(B[0;7m^/(B[m Ir a línea[3d[36m# Por favor ingresa el mensaje del commit para tus cambios. Las[4d#  líneas que comiencen con '#' ser�5/drv2/txt[00m$ git add
-[?2004lNada especificado, nada agregado.
-[33mayuda: ¿Tal vez quisiste decir 'git add .'?[m
-[33mayuda: Desactiva este mensage ejecutando[m
-[33mayuda: "git config advice.addEmptyPathspec false"[m
-[?2004h]0;andresces@andresces-IdeaPad-3-15ITL6: ~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/txt[01;32mandresces@andresces-IdeaPad-3-15ITL6[00m:[01;34m~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/txt[00m$ fi[K[Kgit add .
-[?2004l[?2004h]0;andresces@andresces-IdeaPad-3-15ITL6: ~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/txt[01;32mandresces@andresces-IdeaPad-3-15ITL6[00m:[01;34m~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/txt[00m$ git commit
-[?2004layuda: Esperando que tu editor cierre el archivo ... [?2004h[?1049h[22;0;0t[1;24r(B[m[4l[?7h[39;49m[?1h=[?1h=[?25l[39;49m(B[m[H[2J[22;34H(B[0;7m[ Leyendo... ](B[m[22;31H(B[0;7m[ 12 líneas leídas ](B[m[H(B[0;7m    /home/andresces/TP5-SdC1/src/SdC-Cyber-Core/.git/COMMIT_EDITMSG             [1;79H(B[m[23d(B[0;7m^G(B[m Ayuda     (B[0;7m^O(B[m Guardar   (B[0;7m^W(B[m Buscar    (B[0;7m^K(B[m Cortar    (B[0;7m^T(B[m Ejecutar  (B[0;7m^C(B[m Ubicación[24d(B[0;7m^X(B[m Salir     (B[0;7m^R(B[m Leer fich.(B[0;7m^\(B[m Reemplazar(B[0;7m^U(B[m Pegar     (B[0;7m^J(B[m Justificar(B[0;7m^/(B[m Ir a línea[3d[36m# Por favor ingresa el mensaje del commit para tus cambios. Las[4d#  líneas que comiencen con '#' serán ignoradas, y un mensaje[5d#  vacío aborta el commit.[6d#[7d# En la rama main[8d# Tu rama está actualizada con 'origin/main'.[9d#[10d# Cambios a ser confirmados:[11d#[38;5;208m       [36mmodificados:     drive_2.txt[12d#[38;5;208m       [36mmodificados:     drive_2_clean.txt[13d#[2d[39m(B[m[?12l[?25h[?25l[22d[J[24d[?12l[?25h[24;1H[?1049l[23;0;0t[?1l>[?2004l[KAbortando commit debido que el mensaje está en blanco.
-[?2004h]0;andresces@andresces-IdeaPad-3-15ITL6: ~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/txt[01;32mandresces@andresces-IdeaPad-3-15ITL6[00m:[01;34m~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/txt[00m$ git push
-[?2004lUsername for 'https://github.com': AN ndresCesana
-Password for 'https://AndresCesana@github.com': 
-Everything up-to-date
-[?2004h]0;andresces@andresces-IdeaPad-3-15ITL6: ~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/txt[01;32mandresces@andresces-IdeaPad-3-15ITL6[00m:[01;34m~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/txt[00m$ clear
-[?2004l[H[2J[3J[?2004h]0;andresces@andresces-IdeaPad-3-15ITL6: ~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/txt[01;32mandresces@andresces-IdeaPad-3-15ITL6[00m:[01;34m~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/txt[00m$ clarr
-[?2004lOrden «clarr» no encontrada. Quizá quiso decir:
-  la orden «clirr» del paquete deb «clirr (0.6-7)»
-Pruebe con: sudo apt install <nombre del paquete deb>
-[?2004h]0;andresces@andresces-IdeaPad-3-15ITL6: ~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/txt[01;32mandresces@andresces-IdeaPad-3-15ITL6[00m:[01;34m~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/txt[00m$ clear
-[?2004l[H[2J[3J[?2004h]0;andresces@andresces-IdeaPad-3-15ITL6: ~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/txt[01;32mandresces@andresces-IdeaPad-3-15ITL6[00m:[01;34m~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/txt[00m$ [7mcd ~/TP5-SdC1/src/SdC-Cyber-Core          # raíz del repo[27m
+[?2004lmake -C /lib/modules/6.11.0-21-generic/build M=/home/andresces/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo clean
+make[1]: se entra en el directorio '/usr/src/linux-headers-6.11.0-21-generic'
+make[1]: se sale del directorio '/usr/src/linux-headers-6.11.0-21-generic'
+make -C /lib/modules/6.11.0-21-generic/build M=/home/andresces/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo modules
+make[1]: se entra en el directorio '/usr/src/linux-headers-6.11.0-21-generic'
+warning: the compiler differs from the one used to build the kernel
+  The kernel was built by: x86_64-linux-gnu-gcc-13 (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0
+  You are using:           gcc-13 (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0
+  CC [M]  /home/andresces/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo/drv2.o
+  MODPOST /home/andresces/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo/Module.symvers
+  CC [M]  /home/andresces/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo/drv2.mod.o
+  LD [M]  /home/andresces/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo/drv2.ko
+  BTF [M] /home/andresces/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo/drv2.ko
+Skipping BTF generation for /home/andresces/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo/drv2.ko due to unavailability of vmlinux
+make[1]: se sale del directorio '/usr/src/linux-headers-6.11.0-21-generic'
+[sudo] contraseña para andresces: 
+[ 5087.788884] SdeC_drv2 Registrado exitosamente..!!
+[ 5087.788890] <Major, Minor>: <511, 0>
+[ 5103.274276] SdeC_drv2 dice Adios mundo cruel..!!
+[ 5937.638353] SdeC_drv2: Registrado!
+[ 5937.638361] <Major, Minor inicial>: <511,0>
+crw-r--r-- 1 root root 511, 0 jun 14 13:35 [0m[40;33;01m/dev/SdeC_drv2_0[0m
+crw-r--r-- 1 root root 511, 1 jun 14 13:35 [40;33;01m/dev/SdeC_drv2_1[0m
+crw-r--r-- 1 root root 511, 2 jun 14 13:35 [40;33;01m/dev/SdeC_drv2_2[0m
+[ 5087.788890] <Major, Minor>: <511, 0>
+[ 5103.274276] SdeC_drv2 dice Adios mundo cruel..!!
+[ 5937.638353] SdeC_drv2: Registrado!
+[ 5937.638361] <Major, Minor inicial>: <511,0>
+[ 5937.712737] SdeC_drv2: Desregistrado
+exit
 
-[7m# Guarda cambios pendientes o quítalos[27m
-[7mgit status                                # ninguno debe quedar "modificado"[27m
-
-[7m# Trae la última versión remota[27m
-[7mgit pull --rebase origin main             # o tu fork/origin[27m
-[A[A[A[A[A[A[A[Ccd ~/TP5-SdC1/src/SdC-Cyber-Core          # raíz del repo
-
-# Guarda cambios pendientes o quítalos
-git status                                # ninguno debe quedar "modificado"
-
-# Trae la última versión remota
-git pull --rebase origin main             # o tu fork/origin
-[A
-[?2004lEn la rama main
-Tu rama está actualizada con 'origin/main'.
-
-Cambios a ser confirmados:
-  (usa "git restore -
+Script done on 2025-06-14 13:35:41-03:00 [COMMAND_EXIT_CODE="0"]
