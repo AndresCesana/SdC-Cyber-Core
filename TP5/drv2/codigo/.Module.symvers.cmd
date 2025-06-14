@@ -1,0 +1,1 @@
+savedcmd_/home/andresces/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo/Module.symvers :=  scripts/mod/modpost -M -m -a      -o /home/andresces/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo/Module.symvers -T /home/andresces/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo/modules.order -i Module.symvers -e 

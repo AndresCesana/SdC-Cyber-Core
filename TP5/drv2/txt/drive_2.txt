@@ -1,0 +1,63 @@
+Script started on 2025-06-14 13:21:15-03:00 [TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="80" LINES="24"]
+[?2004h]0;andresces@andresces-IdeaPad-3-15ITL6: ~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo[01;32mandresces@andresces-IdeaPad-3-15ITL6[00m:[01;34m~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo[00m$ [7mmake clean[27m
+[7mmake[27m
+[7msudo insmod drv2.ko[27m
+[7msudo dmesg | tail -n 5[27m
+[A[A[A[A[C[C[C[Cmake clean
+make
+sudo insmod drv2.ko
+sudo dmesg | tail -n 5
+[A
+[?2004lmake -C /lib/modules/6.11.0-21-generic/build M=/home/andresces/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo clean
+make[1]: se entra en el directorio '/usr/src/linux-headers-6.11.0-21-generic'
+  CLEAN   /home/andresces/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo/Module.symvers
+make[1]: se sale del directorio '/usr/src/linux-headers-6.11.0-21-generic'
+make -C /lib/modules/6.11.0-21-generic/build M=/home/andresces/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo modules
+make[1]: se entra en el directorio '/usr/src/linux-headers-6.11.0-21-generic'
+warning: the compiler differs from the one used to build the kernel
+  The kernel was built by: x86_64-linux-gnu-gcc-13 (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0
+  You are using:           gcc-13 (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0
+  CC [M]  /home/andresces/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo/drv2.o
+  MODPOST /home/andresces/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo/Module.symvers
+  CC [M]  /home/andresces/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo/drv2.mod.o
+  LD [M]  /home/andresces/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo/drv2.ko
+  BTF [M] /home/andresces/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo/drv2.ko
+Skipping BTF generation for /home/andresces/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo/drv2.ko due to unavailability of vmlinux
+make[1]: se sale del directorio '/usr/src/linux-headers-6.11.0-21-generic'
+[sudo] contraseña para andresces: 
+[ 4952.576617] SdeC_drv2 Registrado exitosamente..!!
+[ 4952.576622] <Major, Minor>: <511, 0>
+[ 4952.610547] SdeC_drv2 dice Adios mundo cruel..!!
+[ 5087.788884] SdeC_drv2 Registrado exitosamente..!!
+[ 5087.788890] <Major, Minor>: <511, 0>
+[?2004h]0;andresces@andresces-IdeaPad-3-15ITL6: ~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo[01;32mandresces@andresces-IdeaPad-3-15ITL6[00m:[01;34m~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo[00m$ [7msudo mknod /dev/SdeC_drv2_0 c 511 0[27m
+[7msudo mknod /dev/SdeC_drv2_1 c 511 1[27m
+[7msudo mknod /dev/SdeC_drv2_2 c 511 2[27m
+
+[7mls -l /dev/SdeC_drv2_*[27m
+[A[A[A[A[A[C[C[C[Csudo mknod /dev/SdeC_drv2_0 c 511 0
+sudo mknod /dev/SdeC_drv2_1 c 511 1
+sudo mknod /dev/SdeC_drv2_2 c 511 2
+
+ls -l /dev/SdeC_drv2_*
+[A
+[?2004lcrw-r--r-- 1 root root 511, 0 jun 14 13:21 [0m[40;33;01m/dev/SdeC_drv2_0[0m
+crw-r--r-- 1 root root 511, 1 jun 14 13:21 [40;33;01m/dev/SdeC_drv2_1[0m
+crw-r--r-- 1 root root 511, 2 jun 14 13:21 [40;33;01m/dev/SdeC_drv2_2[0m
+[?2004h]0;andresces@andresces-IdeaPad-3-15ITL6: ~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo[01;32mandresces@andresces-IdeaPad-3-15ITL6[00m:[01;34m~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv2/codigo[00m$ [7msudo rmmod drv2[27m
+[7msudo rm /dev/SdeC_drv2_{0,1,2}[27m
+[7msudo dmesg | tail -n 5[27m
+[7mexit            # ← IMPORTANTÍSIMO: cierra la grabación[27m
+[A[A[A[A[C[C[C[Csudo rmmod drv2
+sudo rm /dev/SdeC_drv2_{0,1,2}
+sudo dmesg | tail -n 5
+exit            # ← IMPORTANTÍSIMO: cierra la grabación
+[A
+[?2004l[ 4952.576622] <Major, Minor>: <511, 0>
+[ 4952.610547] SdeC_drv2 dice Adios mundo cruel..!!
+[ 5087.788884] SdeC_drv2 Registrado exitosamente..!!
+[ 5087.788890] <Major, Minor>: <511, 0>
+[ 5103.274276] SdeC_drv2 dice Adios mundo cruel..!!
+exit
+
+Script done on 2025-06-14 13:21:47-03:00 [COMMAND_EXIT_CODE="0"]
