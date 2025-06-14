@@ -1,111 +1,46 @@
-Script started on 2025-06-14 13:38:21-03:00 [TERM="xterm-256color" TTY="/dev/pts/2" COLUMNS="80" LINES="24"]
-[?2004h]0;andresces@andresces-IdeaPad-3-15ITL6: ~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv4/codigo[01;32mandresces@andresces-IdeaPad-3-15ITL6[00m:[01;34m~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv4/codigo[00m$ [7mmake clean[27m
-[7mmake[27m
-
-[7msudo insmod drv4.ko[27m
-[7msudo dmesg | tail -5                # observa el MAJOR (ej. 512)[27m
-
-[7m# Nodo se crea solo gracias a udev; compruébalo[27m
-[7mls -l /dev/SdeC_drv4[27m
-
-[7mecho "Hola driver..." > /dev/SdeC_drv4[27m
+Script started on 2025-06-14 14:26:32-03:00 [TERM="xterm-256color" TTY="/dev/pts/7" COLUMNS="80" LINES="24"]
+[?2004h]0;andresces@andresces-IdeaPad-3-15ITL6: ~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv4/codigo[01;32mandresces@andresces-IdeaPad-3-15ITL6[00m:[01;34m~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv4/codigo[00m$ [7msudo insmod drv4.ko[27m
+[7msudo dmesg | tail -5                  # verás <major,minor>[27m
+[7mecho "X" | sudo tee /dev/SdeC_drv4    # escribe un byte[27m
 [7msudo dmesg | tail -5[27m
-[7mcat /dev/SdeC_drv4[27m
+[7msudo cat /dev/SdeC_drv4               # debe devolver X[27m
 [7msudo dmesg | tail -5[27m
-
 [7msudo rmmod drv4[27m
 [7msudo dmesg | tail -5[27m
-[7mexit                                  # cierra script[27m
-[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[C[C[C[Cmake clean
-make
-
-sudo insmod drv4.ko
-sudo dmesg | tail -5                # observa el MAJOR (ej. 512)
-
-# Nodo se crea solo gracias a udev; compruébalo
-ls -l /dev/SdeC_drv4
-
-echo "Hola driver..." > /dev/SdeC_drv4
+[7mexit                                   # cierra script[27m
+[A[A[A[A[A[A[A[A[A[C[C[C[Csudo insmod drv4.ko
+sudo dmesg | tail -5                  # verás <major,minor>
+echo "X" | sudo tee /dev/SdeC_drv4    # escribe un byte
 sudo dmesg | tail -5
-cat /dev/SdeC_drv4
+sudo cat /dev/SdeC_drv4               # debe devolver X
 sudo dmesg | tail -5
-
 sudo rmmod drv4
 sudo dmesg | tail -5
-exit                                  # cierra script
+exit                                   # cierra script
 [A
-[?2004lmake -C /lib/modules/6.11.0-21-generic/build M=/home/andresces/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv4/codigo clean
-make[1]: se entra en el directorio '/usr/src/linux-headers-6.11.0-21-generic'
-make[1]: se sale del directorio '/usr/src/linux-headers-6.11.0-21-generic'
-make -C /lib/modules/6.11.0-21-generic/build M=/home/andresces/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv4/codigo modules
-make[1]: se entra en el directorio '/usr/src/linux-headers-6.11.0-21-generic'
-warning: the compiler differs from the one used to build the kernel
-  The kernel was built by: x86_64-linux-gnu-gcc-13 (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0
-  You are using:           gcc-13 (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0
-  CC [M]  /home/andresces/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv4/codigo/drv4.o
-In file included from [01m[K./arch/x86/include/asm/mem_encrypt.h:15[m[K,
-                 from [01m[K./include/linux/mem_encrypt.h:17[m[K,
-                 from [01m[K./arch/x86/include/asm/processor-flags.h:6[m[K,
-                 from [01m[K./arch/x86/include/asm/processor.h:5[m[K,
-                 from [01m[K./arch/x86/include/asm/timex.h:5[m[K,
-                 from [01m[K./include/linux/timex.h:67[m[K,
-                 from [01m[K./include/linux/time32.h:13[m[K,
-                 from [01m[K./include/linux/time.h:60[m[K,
-                 from [01m[K./include/linux/stat.h:19[m[K,
-                 from [01m[K./include/linux/module.h:13[m[K,
-                 from [01m[K/home/andresces/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv4/codigo/drv4.c:2[m[K:
-[01m[K/home/andresces/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv4/codigo/drv4.c:[m[K In function ‘[01m[Kdrv4_init[m[K’:
-[01m[K./include/linux/init.h:180:22:[m[K [01;31m[Kerror: [m[Kpassing argument 1 of ‘[01m[Kclass_create[m[K’ from incompatible pointer type [[01;31m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wincompatible-pointer-types-Werror=incompatible-pointer-types]8;;[m[K]
-  180 | #define THIS_MODULE [01;31m[K(&__this_module)[m[K
-      |                     [01;31m[K~^~~~~~~~~~~~~~~[m[K
-      |                      [01;31m[K|[m[K
-      |                      [01;31m[Kstruct module *[m[K
-[01m[K/home/andresces/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv4/codigo/drv4.c:38:23:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KTHIS_MODULE[m[K’
-   38 |     cl = class_create([01;36m[KTHIS_MODULE[m[K, "chardrv");
-      |                       [01;36m[K^~~~~~~~~~~[m[K
-In file included from [01m[K./include/linux/device.h:31[m[K,
-                 from [01m[K/home/andresces/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv4/codigo/drv4.c:5[m[K:
-[01m[K./include/linux/device/class.h:228:54:[m[K [01;36m[Knote: [m[Kexpected ‘[01m[Kconst char *[m[K’ but argument is of type ‘[01m[Kstruct module *[m[K’
-  228 | struct class * __must_check class_create([01;36m[Kconst char *name[m[K);
-      |                                          [01;36m[K~~~~~~~~~~~~^~~~[m[K
-[01m[K/home/andresces/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv4/codigo/drv4.c:38:10:[m[K [01;31m[Kerror: [m[Ktoo many arguments to function ‘[01m[Kclass_create[m[K’
-   38 |     cl = [01;31m[Kclass_create[m[K(THIS_MODULE, "chardrv");
-      |          [01;31m[K^~~~~~~~~~~~[m[K
-[01m[K./include/linux/device/class.h:228:29:[m[K [01;36m[Knote: [m[Kdeclared here
-  228 | struct class * __must_check [01;36m[Kclass_create[m[K(const char *name);
-      |                             [01;36m[K^~~~~~~~~~~~[m[K
-cc1: some warnings being treated as errors
-make[3]: *** [scripts/Makefile.build:244: /home/andresces/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv4/codigo/drv4.o] Error 1
-make[2]: *** [/usr/src/linux-headers-6.11.0-21-generic/Makefile:1932: /home/andresces/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv4/codigo] Error 2
-make[1]: *** [Makefile:224: __sub-make] Error 2
-make[1]: se sale del directorio '/usr/src/linux-headers-6.11.0-21-generic'
-make: *** [Makefile:4: all] Error 2
-[sudo] contraseña para andresces: 
-insmod: ERROR: could not load module drv4.ko: No such file or directory
-[ 5087.788890] <Major, Minor>: <511, 0>
-[ 5103.274276] SdeC_drv2 dice Adios mundo cruel..!!
-[ 5937.638353] SdeC_drv2: Registrado!
-[ 5937.638361] <Major, Minor inicial>: <511,0>
-[ 5937.712737] SdeC_drv2: Desregistrado
-ls: no se puede acceder a '/dev/SdeC_drv4': No existe el archivo o el directorio
-bash: /dev/SdeC_drv4: Permiso denegado
-[ 5087.788890] <Major, Minor>: <511, 0>
-[ 5103.274276] SdeC_drv2 dice Adios mundo cruel..!!
-[ 5937.638353] SdeC_drv2: Registrado!
-[ 5937.638361] <Major, Minor inicial>: <511,0>
-[ 5937.712737] SdeC_drv2: Desregistrado
-cat: /dev/SdeC_drv4: No existe el archivo o el directorio
-[ 5087.788890] <Major, Minor>: <511, 0>
-[ 5103.274276] SdeC_drv2 dice Adios mundo cruel..!!
-[ 5937.638353] SdeC_drv2: Registrado!
-[ 5937.638361] <Major, Minor inicial>: <511,0>
-[ 5937.712737] SdeC_drv2: Desregistrado
-rmmod: ERROR: Module drv4 is not currently loaded
-[ 5087.788890] <Major, Minor>: <511, 0>
-[ 5103.274276] SdeC_drv2 dice Adios mundo cruel..!!
-[ 5937.638353] SdeC_drv2: Registrado!
-[ 5937.638361] <Major, Minor inicial>: <511,0>
-[ 5937.712737] SdeC_drv2: Desregistrado
+[?2004l[sudo] contraseña para andresces: 
+[ 8044.594123] drv3: read
+[ 8044.594138] drv3: close
+[ 8044.620828] drv3: unloaded
+[ 9002.556170] drv4: loading
+[ 9002.556273] drv4: <major,minor>=<511,0>
+X
+[ 9002.556170] drv4: loading
+[ 9002.556273] drv4: <major,minor>=<511,0>
+[ 9002.575541] drv4: open
+[ 9002.575552] drv4: write
+[ 9002.575554] drv4: close
+
+[ 9002.575554] drv4: close
+[ 9002.596616] drv4: open
+[ 9002.596626] drv4: read
+[ 9002.596637] drv4: read
+[ 9002.596647] drv4: close
+[ 9002.596616] drv4: open
+[ 9002.596626] drv4: read
+[ 9002.596637] drv4: read
+[ 9002.596647] drv4: close
+[ 9002.619340] drv4: unloaded
 exit
 
-Script done on 2025-06-14 13:38:49-03:00 [COMMAND_EXIT_CODE="0"]
+Script done on 2025-06-14 14:26:46-03:00 [COMMAND_EXIT_CODE="0"]
