@@ -1,82 +1,0 @@
-Script started on 2025-06-14 14:04:17-03:00 [TERM="xterm-256color" TTY="/dev/pts/4" COLUMNS="80" LINES="24"]
-[?2004h]0;andresces@andresces-IdeaPad-3-15ITL6: ~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv3/codigo[01;32mandresces@andresces-IdeaPad-3-15ITL6[00m:[01;34m~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv3/codigo[00m$ [7mscript -e -q ../txt/drive_3.txt[27m
-[A[C[C[C[Cscript -e -q ../txt/drive_3.txt
-[A
-[?2004l[?2004h]0;andresces@andresces-IdeaPad-3-15ITL6: ~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv3/codigo[01;32mandresces@andresces-IdeaPad-3-15ITL6[00m:[01;34m~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv3/codigo[00m$ [7msudo insmod drv3.ko[27m
-[7msudo dmesg | tail -5            # apunta el MAJOR (ej. 512)[27m
-[7mecho "Hola driver..." > /dev/SdeC_drv3[27m
-[7msudo dmesg | tail -5[27m
-[7mcat /dev/SdeC_drv3[27m
-[7msudo dmesg | tail -5[27m
-[7msudo rmmod drv3[27m
-[7msudo dmesg | tail -5[27m
-[7mexit                             # ← esto vuelve a la shell normal[27m
-[A[A[A[A[A[A[A[A[A[C[C[C[Csudo insmod drv3.ko
-sudo dmesg | tail -5            # apunta el MAJOR (ej. 512)
-echo "Hola driver..." > /dev/SdeC_drv3
-sudo dmesg | tail -5
-cat /dev/SdeC_drv3
-sudo dmesg | tail -5
-sudo rmmod drv3
-sudo dmesg | tail -5
-exit                             # ← esto vuelve a la shell normal
-[A
-[?2004l[sudo] contraseña para andresces: 
-[ 5937.712737] SdeC_drv2: Desregistrado
-[ 6831.776374] apple-mfi-fastcharge 3-2: USB disconnect, device number 2
-[ 6831.787002] ipheth 3-2:4.2: Apple iPhone USB Ethernet now disconnected
-[ 7677.405370] drv3: loading
-[ 7677.405435] drv3: <major,minor>=<511,0>
-bash: /dev/SdeC_drv3: Permiso denegado
-[ 5937.712737] SdeC_drv2: Desregistrado
-[ 6831.776374] apple-mfi-fastcharge 3-2: USB disconnect, device number 2
-[ 6831.787002] ipheth 3-2:4.2: Apple iPhone USB Ethernet now disconnected
-[ 7677.405370] drv3: loading
-[ 7677.405435] drv3: <major,minor>=<511,0>
-cat: /dev/SdeC_drv3: Permiso denegado
-[ 5937.712737] SdeC_drv2: Desregistrado
-[ 6831.776374] apple-mfi-fastcharge 3-2: USB disconnect, device number 2
-[ 6831.787002] ipheth 3-2:4.2: Apple iPhone USB Ethernet now disconnected
-[ 7677.405370] drv3: loading
-[ 7677.405435] drv3: <major,minor>=<511,0>
-[ 6831.776374] apple-mfi-fastcharge 3-2: USB disconnect, device number 2
-[ 6831.787002] ipheth 3-2:4.2: Apple iPhone USB Ethernet now disconnected
-[ 7677.405370] drv3: loading
-[ 7677.405435] drv3: <major,minor>=<511,0>
-[ 7677.452847] drv3: unloaded
-exit
-[?2004h]0;andresces@andresces-IdeaPad-3-15ITL6: ~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv3/codigo[01;32mandresces@andresces-IdeaPad-3-15ITL6[00m:[01;34m~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv3/codigo[00m$ [7mcd ../txt[27m
-[7mcol -b < drive_3.txt > drive_3_clean.txt[27m
-[A[A[C[C[C[Ccd ../txt
-col -b < drive_3.txt > drive_3_clean.txt
-[A
-[?2004l[?2004h]0;andresces@andresces-IdeaPad-3-15ITL6: ~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv3/txt[01;32mandresces@andresces-IdeaPad-3-15ITL6[00m:[01;34m~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv3/txt[00m$ [7mcd ~/TP5-SdC1/src/SdC-Cyber-Core[27m
-
-[7m# Añade .gitignore si aún no contiene estas reglas[27m
-[7mif ! grep -q '\*\*/\*\.ko' .gitignore 2>/dev/null; then[27m
-[7mcat >> .gitignore <<'EOF'[27m
-[7m**/*.ko[27m
-[7m**/*.o[27m
-[7m**/*.mod*[27m
-[7m**/*.cmd[27m
-[7m**/Module.symvers[27m
-[7m**/modules.order[27m
-[7m**/.tmp_versions/[27m
-[7mEOF[27m
-[7mgit add .gitignore[27m
-[7mfi[27m
-
-[7mgit add TP5/drv3/codigo/drv3.c \[27m
-[7m        TP5/drv3/codigo/Makefile \[27m
-[7m        TP5/drv3/txt/drive_3.txt \[27m
-[7m        TP5/drv3/txt/drive_3_clean.txt[27m
-[7mgit commit -m "TP5: driver 3 – código y log limpio (una ejecución)"[27m
-[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[A[Ccd ~/TP5-SdC1/src/SdC-Cyber-Core
-
-# Añade .gitignore si aún no contiene estas reglas
-if ! grep -q '\*\*/\*\.ko' .gitignore 2>/dev/null; then
-cat >> .gitignore <<'EOF'
-**/*.ko
-**/*.o
-**/*.mod*
-**/*.cmd
