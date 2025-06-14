@@ -1,0 +1,45 @@
+Script started on 2025-06-14 14:10:02-03:00 [TERM="xterm-256color" TTY="/dev/pts/6" COLUMNS="80" LINES="24"]
+[?2004h]0;andresces@andresces-IdeaPad-3-15ITL6: ~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv3/codigo[01;32mandresces@andresces-IdeaPad-3-15ITL6[00m:[01;34m~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv3/codigo[00m$ [7msudo insmod drv3.ko[27m
+[7msudo dmesg | tail -5          # verás <major,minor>=<511,0>[27m
+[7msudo echo "Hola driver..." > /dev/SdeC_drv3[27m
+[7msudo dmesg | tail -5[27m
+[7msudo cat /dev/SdeC_drv3[27m
+[7msudo dmesg | tail -5[27m
+[7msudo rmmod drv3[27m
+[7msudo dmesg | tail -5[27m
+[7mexit                           # ← MUY importante[27m
+[A[A[A[A[A[A[A[A[A[C[C[C[Csudo insmod drv3.ko
+sudo dmesg | tail -5          # verás <major,minor>=<511,0>
+sudo echo "Hola driver..." > /dev/SdeC_drv3
+sudo dmesg | tail -5
+sudo cat /dev/SdeC_drv3
+sudo dmesg | tail -5
+sudo rmmod drv3
+sudo dmesg | tail -5
+exit                           # ← MUY importante
+[A
+[?2004l[sudo] contraseña para andresces: 
+[ 7677.452847] drv3: unloaded
+[ 7993.754172] ntfs3: Enabled Linux POSIX ACLs support
+[ 7993.754175] ntfs3: Read-only LZX/Xpress compression included
+[ 8044.556284] drv3: loading
+[ 8044.556357] drv3: <major,minor>=<511,0>
+bash: /dev/SdeC_drv3: Permiso denegado
+[ 7677.452847] drv3: unloaded
+[ 7993.754172] ntfs3: Enabled Linux POSIX ACLs support
+[ 7993.754175] ntfs3: Read-only LZX/Xpress compression included
+[ 8044.556284] drv3: loading
+[ 8044.556357] drv3: <major,minor>=<511,0>
+[ 8044.556284] drv3: loading
+[ 8044.556357] drv3: <major,minor>=<511,0>
+[ 8044.594109] drv3: open
+[ 8044.594123] drv3: read
+[ 8044.594138] drv3: close
+[ 8044.556357] drv3: <major,minor>=<511,0>
+[ 8044.594109] drv3: open
+[ 8044.594123] drv3: read
+[ 8044.594138] drv3: close
+[ 8044.620828] drv3: unloaded
+exit
+
+Script done on 2025-06-14 14:10:48-03:00 [COMMAND_EXIT_CODE="0"]
