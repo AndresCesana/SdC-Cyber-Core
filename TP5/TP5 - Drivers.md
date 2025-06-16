@@ -1,4 +1,5 @@
 
+
 # Sistemas de Computación
 
 
@@ -80,7 +81,7 @@ Para superar este TP deben **diseñar y construir un CDD** que:
 
   
 
-![Flujo de llamadas al kernel](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/image3.png)
+
 
   
 
@@ -93,8 +94,7 @@ Para superar este TP deben **diseñar y construir un CDD** que:
   
 
 ### ¿Qué es un driver?
-
-  
+ 
 
 Un **driver** (controlador) es un programa de software que permite que el sistema operativo se comunique y controle un hardware.
 
@@ -165,7 +165,7 @@ Un **Character Device Driver** permite leer o escribir datos **byte a byte**, co
 En Linux se representan como archivos especiales bajo el directorio `/dev`.
 
   
-
+![Flujo de llamadas al kernel](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/image3.png)
 ---
 
   
