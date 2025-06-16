@@ -1,4 +1,44 @@
 ﻿
+<style>
+
+/* --- Ajustes rápidos de formato para StackEdit --- */
+
+h1 {
+
+border: 1px solid #000;
+
+padding: 8px 14px;
+
+border-radius: 2px;
+
+margin-bottom: 24px;
+
+}
+
+hr {
+
+border: none;
+
+border-top: 1px solid #aaa;
+
+margin: 32px 0;
+
+}
+
+/* Centrar las imágenes de portada */
+
+.cover-img {
+
+display: block;
+
+margin: 12px auto;
+
+max-width: 90%;
+
+}
+
+</style>
+
 # Sistemas de Computación
 
   
@@ -195,6 +235,7 @@ Este comportamiento se prueba mediante el **Driver 1**.
 #include <linux/module.h>
 #include <linux/init.h>
 #include <linux/kernel.h>
+```
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("TP5 – CDD");
 MODULE_DESCRIPTION("drv1: módulo mínimo");
@@ -213,9 +254,11 @@ module_init(drv1_init);
 module_exit(drv1_exit);
 ```
 
+```
 El fin de correr este primer módulo es poder enteneder como funciona la carga y descarga del driver.
 A continuacion se evidencia este comportamiento.
 ```c
+```
 sudo insmod drv1.ko
 sudo dmesg | tail -n 5
 [sudo] contraseña para andresces:
@@ -223,6 +266,7 @@ sudo dmesg | tail -n 5
 rmmod drv1
 sudo dmesg | tail -n 5
 [ 2250.139672] SdeC: drv1 descargado
+```
 ```
 Para este trabajo era necesario firmar los drivers para poder utilizarlos, como no eramos los auores se decidio desactivar el SecureBoot para poder cargarlos sin dificultad.
 ### Driver 2
@@ -234,6 +278,7 @@ Para este trabajo era necesario firmar los drivers para poder utilizarlos, como 
 #include <linux/fs.h>
 #include <linux/types.h>
 #include <linux/kdev_t.h>
+```
 static dev_t first;
 static int __init drv2_init(void)
 {
@@ -255,8 +300,10 @@ MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Cátedra SdC");
 MODULE_DESCRIPTION("Driver 2 – ejemplo MAJOR/MINOR");
 ```
+```
 Como se puede notar la forma de cargarlo y descargarlo del kernel es igual, pero la función del driver es demostrar asignación dinámica de números major/minor, por lo que obtendremos la salida de consola que se muestra a continuacion.
 ```c
+```
 [sudo] contraseña para andresces:
 [ 5087.788884] SdeC_drv2: Registrado!
 [ 5087.788890] <Major, Minor inicial>: <511,0>
@@ -271,8 +318,10 @@ sudo rm /dev/SdeC_drv2_{0,1,2}
 sudo dmesg | tail -n 5
 [ 5937.712737] SdeC_drv2: Desregistrado
 ```
+```
 Si ahora se busca el major, podemos ver la lista de todos los nodos del dispositivo.
 ```c
+```
 cpi_thermal_rel
 autofs
 block
@@ -280,17 +329,22 @@ btrfs-control
 [...]
 zfs
 ```
+```
 Como no aparecen se crean tres nodos de prueba.
 ```c
+```
 sudo mknod /dev/SdeC_drv2_0 c $major 0
 sudo mknod /dev/SdeC_drv2_1 c $major 1
 sudo mknod /dev/SdeC_drv2_2 c $major 2
 ```
+```
 y la nueva lista de nodos es.
 ```c
+```
 sudo mknod /dev/SdeC_drv2_0 c $major 0
 sudo mknod /dev/SdeC_drv2_1 c $major 1
 sudo mknod /dev/SdeC_drv2_2 c $major 2
+```
 ```
 Podemos verlo en la lista.
 ![Nodos asignados](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/Image4.png)
@@ -305,6 +359,7 @@ Podemos verlo en la lista.
 #include <linux/cdev.h>
 #include <linux/kdev_t.h>
 
+```
 static dev_t first;
 static struct cdev c_dev;
 static struct class *cl;
@@ -374,13 +429,17 @@ MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Cátedra SdC");
 MODULE_DESCRIPTION("Driver 3 – char device con file_operations");
 ```
+```
 La función del driver es aceptar llamadas open / read / write / close, pero no almacena datos ni controla hardware. Se realiza una prueba de escitura y lectura
 ```c
+```
 echo "Hola driver..." > /dev/SdeC_drv3
 cat  /dev/SdeC_drv3
 ```
+```
 De lo que se obtiene
 ```c
+```
 drv3: open
 drv3: write – 15 bytes
 drv3: close
@@ -388,18 +447,21 @@ drv3: open
 drv3: read
 drv3: close
 ```
+```
 `open()` Imprime “open” y retorna 0.
 `write()` Informa tamaño recibido (15 bytes).
 `read()` Imprime “read” y devuelve 0.
 `close()` Fin de ambas operaciones.
 Por ultimo debemos descargarlo
 ```c
+```
 sudo rmmod drv3
 ```
 ```c
 drv3: unloaded
 ```
 ### Driver 4
+```
 ---
 #### Codigo fuente 
 ```c
@@ -411,6 +473,7 @@ drv3: unloaded
 #include <linux/kdev_t.h>
 #include <linux/uaccess.h>
 
+```
 static dev_t first;
 static struct cdev  c_dev;
 static struct class *cl;
@@ -488,8 +551,10 @@ MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Cátedra SdC");
 MODULE_DESCRIPTION("Driver 4 – char device con buffer de 1 byte");
 ```
+```
 El driver mantiene un único byte de estado dentro del kernel. Permite que aplicaciones de espacio de usuario escriban un carácter y luego lo lean.
 ```c
+```
 sudo insmod drv4.ko
 SdeC_drv4: Registrado exitosamente..!!
 grep SdeC_drv4 /proc/devices         
@@ -505,6 +570,7 @@ drv4: open
 drv4: read
 drv4: close
 sudo rmmod drv4
+```
 ```
 Se carga con insmod drv4.ko
 opne crea el descriptor;  write copia sólo el carácter ‘H’ en c; close cierra el descriptor.
@@ -535,9 +601,11 @@ El driver desarrollado permite:
 Primero, comencemos por instalar QEMU y las herramientas necesarias, como el proyecto qemu-rpi-gpio o el binario qemu-system-arm necesario para emular arquitectura ARM (como la Raspberry Pi).
 
 ```c
+```
 sudo apt update
 sudo apt install qemu-system qemu-user qemu-utils qemu-system-arm socat build-essential libfdt-dev device-tree-compiler python3-pip
 pip install qemu-rpi-gpio
+```
 ```
 Para el proyecto se utilizo un venv
 A continuación, debemos descargar y preparar la imagen de Raspbian
@@ -614,11 +682,9 @@ Ahora, para compilar, dentro de la Raspberry via SSH hacemos
 cd ~/driver
 make # compila el módulo
 dtc -@ -I dts -O dtb -o signal_driver.dtbo signal_driver.dts # compila el overlay
-
 ![](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/driver_copiado_compilado.png)
 Copiar el overlay al lugar correcto
 sudo cp signal_driver.dtbo /boot/overlays/
-
 ![](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/image10.png)
 Estos comandos se utilizan para instalar y activar el Device Tree Overlay.
 CARGAMOS EL DRIVER
