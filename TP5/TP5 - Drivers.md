@@ -578,7 +578,9 @@ cd ~/qemu-rpi
 ./run.sh
 Esto lanza la VM de Raspbian.La primera vez que se ingresa solicita configurar el teclado y un usuario, también para no tener que usar el entorno de qemu y poder usar la terminal nativa se crea el acceso por ssh con los comandos:
 ![](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/image5.png)
+
 ![](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/qemu_adentro.png)
+
 Una vez terminada la configuración inicial y ya vemos la línea de comandos en la ventana de QEMU, ahora podemos activar y usar SSH, lo que nos va a permitir un manejo más ágil que usar la ventana emulada.
 ####  Dentro de la Raspberry :
 Primero, asegurate de que el servicio SSH esté activo:
@@ -591,11 +593,13 @@ sudo systemctl status ssh
 Ahora, abrí una terminal nueva y ejecutá:
 ssh felipe@127.0.0.1 -p 50022
 ![](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/ssh_established.png)
+
 Al comienzo aumentamos el tamaño de la imagen pero para que sea efectivo se tira el
 siguiente comando:
 sudo raspi-config
 Abre una interfaz y se elige las opción Advanced Options → Expand Filesystem. Esto expande el sistema de archivos al total disponible en la imagen, haciendo efectivos los 8 G luego del reboot.
 ![](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/resized_succesfull.png)
+
 Construccion del CDD
 El codigo fuente se cnuentra baji el nombre de signal_driver.c. Tal como vimos en la parte 1 con los drivers de ejemplo, al cargar el módulo, se crea automáticamente un archivo especial en el sistema, /dev/signal_dev_TP5, que actúa como interfaz entre el usuario y el driver. A través de este archivo, se pueden realizar lecturas (cat) y escrituras (echo) que son gestionadas por las funciones definidas en el driver
 Con echo 0 > /dev/signal_dev_TP5, se selecciona el pin GPIO17; con echo 1, el GPIO27.
@@ -615,18 +619,23 @@ cd ~/driver
 make # compila el módulo
 dtc -@ -I dts -O dtb -o signal_driver.dtbo signal_driver.dts # compila el overlay
 ![](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/driver_copiado_compilado.png)
+
 Copiar el overlay al lugar correcto
 sudo cp signal_driver.dtbo /boot/overlays/
 ![](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/image10.png)
+
 Estos comandos se utilizan para instalar y activar el Device Tree Overlay.
 CARGAMOS EL DRIVER
 cargar el driver en el kernel y preparar su
 funcionamient
 ![](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/image11.png)
+
 verificamos que el archivo de dispositivo existe, lo cual confirma que el módulo fue cargado correctamente y que el dispositivo está disponible para su uso.
 ![](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/image12.png)
+
 Tenemos entonces ahora nuestra interfaz entre el espacio de kernel y el espacio de usuario.
 ![](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/image13.png)
+
 -   El dispositivo /dev/signal_dev_TP5 está accesible.    
 -   Con el comando cat podemos ver que la lectura devuelve valores 0 y 1, alternando correctamente.      
 -   ¡Las señales externas están siendo sensadas a través del CDD!
@@ -634,3 +643,4 @@ Tenemos entonces ahora nuestra interfaz entre el espacio de kernel y el espacio 
 El comando echo '0' > /dev/signal_dev_TP5 le indica al driver que vea el valor del pin GPIO17 y con cat /dev/signal_dev_TP5 leemos el valor del pin. Por el contrario, si le enviamos un 1 pasa a registrar el valor del pin GPIO27. Ahora agreguemos funcionalidades y mejoremos la experiencia de usuario con una interfaz grafica.
 Se implementa una interfaz de usuario a través de una aplicación desarrollada con Streamlit, que permite seleccionar qué señal graficar, ya sea la señal 0 (correspondiente al pin GPIO17) o la señal 1 (pin GPIO27). La aplicación genera en tiempo real un gráfico que muestra la evolución del valor leído en el pin seleccionado. Además, incluye una opción para reiniciar el gráfico, permitiendo al usuario comenzar una nueva visualización desde cero en cualquier momento.
 ![](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/interfaz.png)
+
