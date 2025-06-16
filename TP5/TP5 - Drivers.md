@@ -614,9 +614,11 @@ Ahora, para compilar, dentro de la Raspberry via SSH hacemos
 cd ~/driver
 make # compila el módulo
 dtc -@ -I dts -O dtb -o signal_driver.dtbo signal_driver.dts # compila el overlay
+
 ![](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/driver_copiado_compilado.png)
 Copiar el overlay al lugar correcto
 sudo cp signal_driver.dtbo /boot/overlays/
+
 ![](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/image10.png)
 Estos comandos se utilizan para instalar y activar el Device Tree Overlay.
 CARGAMOS EL DRIVER
