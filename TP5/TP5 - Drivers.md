@@ -547,6 +547,7 @@ qemu-img resize 2024-03-15-raspios-bookworm-arm64-lite.img 8G
 
 NOTA sobre los 8 GB: El comando se utiliza para aumentar el tamaño del archivo de imagen del sistema operativo a 8 gigabytes. Esta acción es necesaria porque, por defecto, muchas imágenes de sistemas embebidos vienen con un tamaño mínimo justo para arrancar y contener sólo lo esencial del sistema operativo. Además, QEMU genera error si el tamaño de la imagen no es redondeado a una unidad válida, como megabytes (MB) o gigabytes (GB).
 ![](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/image6.png)
+
 Ahora, aun desde LInux nativo debemos montar la imagen para extraer los archivos necesaria para QEMU pueda emular. Se van a extraer dos archivos clave:
 -   kernel8.img (el kernel ARM para Raspberry Pi 64 bits)     
 -   El archivo .dtb (device tree binary para Raspberry Pi 3B+)  
