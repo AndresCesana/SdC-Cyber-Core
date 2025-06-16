@@ -546,6 +546,7 @@ unxz 2024-03-15-raspios-bookworm-arm64-lite.img.xz
 qemu-img resize 2024-03-15-raspios-bookworm-arm64-lite.img 8G
 
 NOTA sobre los 8 GB: El comando se utiliza para aumentar el tamaño del archivo de imagen del sistema operativo a 8 gigabytes. Esta acción es necesaria porque, por defecto, muchas imágenes de sistemas embebidos vienen con un tamaño mínimo justo para arrancar y contener sólo lo esencial del sistema operativo. Además, QEMU genera error si el tamaño de la imagen no es redondeado a una unidad válida, como megabytes (MB) o gigabytes (GB).
+
 ![](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/image6.png)
 
 Ahora, aun desde LInux nativo debemos montar la imagen para extraer los archivos necesaria para QEMU pueda emular. Se van a extraer dos archivos clave:
@@ -567,6 +568,7 @@ cp /mnt/rpi-boot/kernel8.img ~/rootfs/
 cp /mnt/rpi-boot/*.dtb ~/rootfs/
 
 Este paso es necesario ya que QEMU no puede arrancar la imagen .img de la Raspberry sin el kernel8.img.
+
 ![](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/image7.png)
 
 A continuación, se debe construir un script de shell basado en el script run.sh del proyecto qemu-rpi-gpio Este script implementa un gestor virtual de pines GPIO que se comunica con QEMU a través de un socket UNIX (/tmp/tmp-gpio.sock) usando socat. Utiliza las direcciones de memoria mapeadas de los GPIO de la Raspberry Pi 3B para simular lecturas y escrituras sobre los registros de control de pines. El script define una clase VGPIOManager con métodos para leer, escribir, cambiar estados y simular interrupciones sobre los pines, además de exponer una pequeña interfaz de comandos. De esta forma, desde una terminal simlulamos las entradas GPIO
@@ -577,6 +579,7 @@ Y desde otra ventan levantamos la Raspberry Pi emulada:
 cd ~/qemu-rpi
 ./run.sh
 Esto lanza la VM de Raspbian.La primera vez que se ingresa solicita configurar el teclado y un usuario, también para no tener que usar el entorno de qemu y poder usar la terminal nativa se crea el acceso por ssh con los comandos:
+
 ![](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/image5.png)
 
 ![](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/qemu_adentro.png)
@@ -592,12 +595,14 @@ sudo systemctl status ssh
 ### Desde tu máquina host (Linux Mint):
 Ahora, abrí una terminal nueva y ejecutá:
 ssh felipe@127.0.0.1 -p 50022
+
 ![](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/ssh_established.png)
 
 Al comienzo aumentamos el tamaño de la imagen pero para que sea efectivo se tira el
 siguiente comando:
 sudo raspi-config
 Abre una interfaz y se elige las opción Advanced Options → Expand Filesystem. Esto expande el sistema de archivos al total disponible en la imagen, haciendo efectivos los 8 G luego del reboot.
+
 ![](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/resized_succesfull.png)
 
 Construccion del CDD
@@ -618,22 +623,27 @@ Ahora, para compilar, dentro de la Raspberry via SSH hacemos
 cd ~/driver
 make # compila el módulo
 dtc -@ -I dts -O dtb -o signal_driver.dtbo signal_driver.dts # compila el overlay
+
 ![](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/driver_copiado_compilado.png)
 
 Copiar el overlay al lugar correcto
 sudo cp signal_driver.dtbo /boot/overlays/
+
 ![](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/image10.png)
 
 Estos comandos se utilizan para instalar y activar el Device Tree Overlay.
 CARGAMOS EL DRIVER
 cargar el driver en el kernel y preparar su
 funcionamient
+
 ![](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/image11.png)
 
 verificamos que el archivo de dispositivo existe, lo cual confirma que el módulo fue cargado correctamente y que el dispositivo está disponible para su uso.
+
 ![](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/image12.png)
 
 Tenemos entonces ahora nuestra interfaz entre el espacio de kernel y el espacio de usuario.
+
 ![](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/image13.png)
 
 -   El dispositivo /dev/signal_dev_TP5 está accesible.    
@@ -642,5 +652,6 @@ Tenemos entonces ahora nuestra interfaz entre el espacio de kernel y el espacio 
 
 El comando echo '0' > /dev/signal_dev_TP5 le indica al driver que vea el valor del pin GPIO17 y con cat /dev/signal_dev_TP5 leemos el valor del pin. Por el contrario, si le enviamos un 1 pasa a registrar el valor del pin GPIO27. Ahora agreguemos funcionalidades y mejoremos la experiencia de usuario con una interfaz grafica.
 Se implementa una interfaz de usuario a través de una aplicación desarrollada con Streamlit, que permite seleccionar qué señal graficar, ya sea la señal 0 (correspondiente al pin GPIO17) o la señal 1 (pin GPIO27). La aplicación genera en tiempo real un gráfico que muestra la evolución del valor leído en el pin seleccionado. Además, incluye una opción para reiniciar el gráfico, permitiendo al usuario comenzar una nueva visualización desde cero en cualquier momento.
+
 ![](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/interfaz.png)
 
