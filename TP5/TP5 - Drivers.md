@@ -509,7 +509,12 @@ Se carga con insmod drv4.ko
 opne crea el descriptor;  write copia sólo el carácter ‘H’ en c; close cierra el descriptor.
 Primera llamada a read() devuelve el byte ‘H’; cat lo muestra. Hace una segunda llamada, read() devuelve 0, termina y luego close.
 Por ultimo se descarga con rmmod drv4
+
+
 ## Segunda parte: Controlador de Dispositivo de Caracteres (CDD)
+
+En este apartado se busca realizar la construcción de un Controlador de Dispositivo de Caracteres (CDD) que permita sensar dos señales digitales externas con un período de un segundo.
+
 A través de una aplicación de usuario, se debe poder:
 -   Elegir cuál de las dos señales leer.      
 -   Leer dicha señal y graficarla en función del tiempo. El gráfico debe incluir:  
@@ -523,13 +528,11 @@ Al cambiar de señal:
 Las correcciones de escala, si fueran necesarias, deben aplicarse en la aplicación de usuario, no en el driver.
 Esta práctica busca comprender el rol del device driver como pieza clave en la comunicación entre el sistema operativo y los dispositivos periféricos, enfocándose en el caso particular de señales digitales.  
 Además, se explora la diferencia entre software drivers y hardware controllers, un concepto fundamental en sistemas operativos y arquitectura de computadoras.
+
+
 ### Raspberry Pi 3B emulada con QEMU
 ---
 Para el desarrollo, se utiliza una Raspberry Pi 3B emulada con QEMU, lo que permite simular tanto el hardware como el entorno operativo, sin requerir hardware físico.
-El driver desarrollado permite:
--   Seleccionar entre dos señales digitales (con una frecuencia de un segundo).  
--   Leer sus valores.  
-- Exponerlos a espacio de usuario mediante un archivo especial en /dev.
 
 Primero, comencemos por instalar QEMU y las herramientas necesarias, como el proyecto qemu-rpi-gpio o el binario qemu-system-arm necesario para emular arquitectura ARM (como la Raspberry Pi).
 
@@ -538,107 +541,151 @@ sudo apt update
 sudo apt install qemu-system qemu-user qemu-utils qemu-system-arm socat build-essential libfdt-dev device-tree-compiler python3-pip
 pip install qemu-rpi-gpio
 ```
-Para el proyecto se utilizo un venv
-A continuación, debemos descargar y preparar la imagen de Raspbian
-El proyecto de PyPI incluye un script de configuración (setup) que automatiza la descarga de una imagen del sistema operativo para la Raspberry Pi. Sin embargo, la imagen proporcionada por defecto no contenía los headers necesarios para compilar el driver, por lo que se descarga una imagen que sí los tenga:
+Para el proyecto qemu-rpi-gpio se utilizó un entorno virtual.
+
+A continuación, debemos descargar y preparar la imagen de Raspbian (OS para Raspberry Pi).
+
 wget https://downloads.raspberrypi.com/raspios_lite_arm64/images/raspios_lite_arm64-2024-03-15/2024-03-15-raspios-bookworm-arm64-lite.img.xz
 unxz 2024-03-15-raspios-bookworm-arm64-lite.img.xz
 qemu-img resize 2024-03-15-raspios-bookworm-arm64-lite.img 8G
 
-NOTA sobre los 8 GB: El comando se utiliza para aumentar el tamaño del archivo de imagen del sistema operativo a 8 gigabytes. Esta acción es necesaria porque, por defecto, muchas imágenes de sistemas embebidos vienen con un tamaño mínimo justo para arrancar y contener sólo lo esencial del sistema operativo. Además, QEMU genera error si el tamaño de la imagen no es redondeado a una unidad válida, como megabytes (MB) o gigabytes (GB).
+NOTA sobre los 8 GB: se aumenta el tamaño del archivo de imagen del sistema operativo a 8 gigabytes porque, por defecto, muchas imágenes de sistemas embebidos vienen con un tamaño mínimo justo para arrancar y contener sólo lo esencial del sistema operativo, lo cual no nos sirve si buscamos construir nuevos drivers.
 
 ![](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/image6.png)
 
-Ahora, aun desde LInux nativo debemos montar la imagen para extraer los archivos necesaria para QEMU pueda emular. Se van a extraer dos archivos clave:
+Ahora, aun desde Linux nativo debemos montar la imagen para extraer los archivos necesaria para QEMU pueda emular. Se van a extraer dos archivos clave:
 -   kernel8.img (el kernel ARM para Raspberry Pi 64 bits)     
 -   El archivo .dtb (device tree binary para Raspberry Pi 3B+)  
  
- Creamos carpetas de montaje en /mnt:
+Creamos carpetas de montaje en /mnt:
+```bash
 sudo mkdir -p /mnt/rpi-boot /mnt/rpi-root
+```
+El directorio /mnt en sistemas tipo Unix, como Linux, se utiliza tradicionalmente como un punto de montaje temporal para sistemas de archivos externos como discos duros, unidades USB o CD-ROMs.
+
+
 Creamos carpeta destino:
+```bash
 mkdir -p ~/qemu-rpi/rootfs
+```
 Asociar la imagen a un dispositivo de loop con detección de particiones
+```bash
 sudo losetup --find --partscan --show 2024-03-15-raspios-bookworm-arm64-lite.img
+```
 Esto nos devuelve /dev/loop1
 Montar las particiones (boot y root)
+```bash
 sudo mount /dev/loop1p1 /mnt/rpi-boot
 sudo mount /dev/loop1p2 /mnt/rpi-root
+```
 Copiamos los archivos necesarios en la carpeta destino
+```bash
 cp /mnt/rpi-boot/kernel8.img ~/rootfs/
 cp /mnt/rpi-boot/*.dtb ~/rootfs/
-
-Este paso es necesario ya que QEMU no puede arrancar la imagen .img de la Raspberry sin el kernel8.img.
+```
+Veamos el resultado:
 
 ![](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/image7.png)
 
-A continuación, se debe construir un script de shell basado en el script run.sh del proyecto qemu-rpi-gpio Este script implementa un gestor virtual de pines GPIO que se comunica con QEMU a través de un socket UNIX (/tmp/tmp-gpio.sock) usando socat. Utiliza las direcciones de memoria mapeadas de los GPIO de la Raspberry Pi 3B para simular lecturas y escrituras sobre los registros de control de pines. El script define una clase VGPIOManager con métodos para leer, escribir, cambiar estados y simular interrupciones sobre los pines, además de exponer una pequeña interfaz de comandos. De esta forma, desde una terminal simlulamos las entradas GPIO
+
+De los archivos que observamos que se copiaron en la carpeta /rootfs, nosotros necesitamos el device tree blob bcm2710-rpi-3-b-plus.dtb, porque se está emulando una Raspberry Pi 3B+, que usa el SoC Broadcom BCM2710. Tambien necesitamos la imagen del núcleo de Linux compilada para arquitectura ARM de 64 bits (AArch64) . Esto es porque QEMU no arranca la imagen de Raspbian como una PC (con BIOS o GRUB), sino como una Raspberry real: necesita que le des el kernel (kernel8.img) y el device tree (.dtb) explícitamente.
+
+
+A continuación, se debe construir un script de shell basado en el script run.sh del proyecto qemu-rpi-gpio. Este script implementa un gestor virtual de pines GPIO que se comunica con QEMU a través de un socket UNIX (/tmp/tmp-gpio.sock) usando socat. Utiliza las direcciones de memoria mapeadas de los GPIO de la Raspberry Pi 3B para simular lecturas y escrituras sobre los registros de control de pines.
+
+De esta forma, desde una terminal simlulamos las entradas GPIO
+```bash
 cd ~/qemu-rpi
-source venv/bin/activate # si estás en entorno virtual
+source venv/bin/activate
 python qemu_rpi_gpio.py
+```
+
 Y desde otra ventan levantamos la Raspberry Pi emulada:    
+```bash
 cd ~/qemu-rpi
 ./run.sh
-Esto lanza la VM de Raspbian.La primera vez que se ingresa solicita configurar el teclado y un usuario, también para no tener que usar el entorno de qemu y poder usar la terminal nativa se crea el acceso por ssh con los comandos:
+```bash
+
+Esto lanza la VM de Raspbian.La primera vez que se ingresa solicita una configuración inicial.
 
 ![](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/image5.png)
 
 ![](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/qemu_adentro.png)
 
 Una vez terminada la configuración inicial y ya vemos la línea de comandos en la ventana de QEMU, ahora podemos activar y usar SSH, lo que nos va a permitir un manejo más ágil que usar la ventana emulada.
-####  Dentro de la Raspberry :
-Primero, asegurate de que el servicio SSH esté activo:
+
+Dentro de la Raspberry, hacemos:
+
+```bash
 sudo systemctl enable ssh
 sudo systemctl start ssh
-Verificá que esté corriendo:
-sudo systemctl status ssh
+```
 
-### Desde tu máquina host (Linux Mint):
-Ahora, abrí una terminal nueva y ejecutá:
+Verificamos que esté corriendo:
+```bash
+sudo systemctl status ssh
+```
+Desde la máquina host (Linux Mint), abrimoss una terminal nueva y ejecutamos:
+```bash
 ssh felipe@127.0.0.1 -p 50022
+```
 
 ![](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/ssh_established.png)
 
-Al comienzo aumentamos el tamaño de la imagen pero para que sea efectivo se tira el
-siguiente comando:
+Una vez configurado el acceso SSH y antes de comenzar con la construccion del CDD propiamente dicha, el utimo es hacer efectivo el aumento del tamaño de la imagen que hicimos anteriormente con:
+```bash
 sudo raspi-config
-Abre una interfaz y se elige las opción Advanced Options → Expand Filesystem. Esto expande el sistema de archivos al total disponible en la imagen, haciendo efectivos los 8 G luego del reboot.
+```
+
+Luego desde la interfaz que se abre vamos a Advanced Options → Expand Filesystem. Esto expande el sistema de archivos al total disponible en la imagen, haciendo efectivos los 8 G luego de un reboot.
 
 ![](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/resized_succesfull.png)
 
-Construccion del CDD
-El codigo fuente se cnuentra baji el nombre de signal_driver.c. Tal como vimos en la parte 1 con los drivers de ejemplo, al cargar el módulo, se crea automáticamente un archivo especial en el sistema, /dev/signal_dev_TP5, que actúa como interfaz entre el usuario y el driver. A través de este archivo, se pueden realizar lecturas (cat) y escrituras (echo) que son gestionadas por las funciones definidas en el driver
-Con echo 0 > /dev/signal_dev_TP5, se selecciona el pin GPIO17; con echo 1, el GPIO27.
-Luego, con cat /dev/signal_dev_TP5, se obtiene el valor actual del pin seleccionado (0 o 1).
-El driver registra estos pines como entradas mediante el uso de la API gpiod_get_index y
-utiliza las funciones read, write, open y release para manejar la interacción con el
-dispositivo. Se define un probe para inicializar el driver y un remove para liberar los recursos
-al descargarlo.
--   info sobre el .dts
+### Construccion del CDD
 
-Ahora debemos Copiar y compilar el driver
-En la máquina host (Linux Mint) copiamos el folder /drivers y sus respectivos archivos al entorno emulado así:
+El código fuente se encuentra bajo el nombre de signal_driver.c. 
+
+
+Ahora debemos copiar y compilar el driver en la Raspberry. En la máquina host (Linux Mint) copiamos el folder /drivers y sus respectivos archivos al entorno emulado así:
+```bash
 scp -P 50022 -r driver/ felipe@127.0.0.1:/home/felipe/driver
-Esto todo el contenido de ~/qemu-rpi/driver/ al mismo path dentro de la Raspberry.
+```
 Ahora, para compilar, dentro de la Raspberry via SSH hacemos
+```bash
 cd ~/driver
 make # compila el módulo
 dtc -@ -I dts -O dtb -o signal_driver.dtbo signal_driver.dts # compila el overlay
+```
 
 ![](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/driver_copiado_compilado.png)
 
-Copiar el overlay al lugar correcto
-sudo cp signal_driver.dtbo /boot/overlays/
+Para copiar el overlay al lugar correcto:
 
+```bash
+sudo cp signal_driver.dtbo /boot/overlays/
+```
 ![](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/image10.png)
 
-Estos comandos se utilizan para instalar y activar el Device Tree Overlay.
-CARGAMOS EL DRIVER
-cargar el driver en el kernel y preparar su
-funcionamient
+Estos comandos que vemos en la imagen se utilizan para instalar y activar el Device Tree Overlay.
+
+
+Ahora, cargamos el driver en el kernel de la Raspberry y preparamos su funcionamiento.
+
+Tal como vimos en la Parte 1 con los drivers de ejemplo, al cargar el módulo con *insmod*, se crea automáticamente un archivo especial en el sistema, /dev/signal_dev_TP5, que actúa como interfaz entre el usuario y el driver. A través de este archivo, se pueden realizar lecturas (cat) y escrituras (echo) que son gestionadas por las funciones definidas en el driver
+Con 
+```bash
+echo 0 > /dev/signal_dev_TP5
+```
+se selecciona el pin GPIO17; con 1, el GPIO27.
+Luego, con 
+```bash
+cat /dev/signal_dev_TP5
+```
+se obtiene el valor actual del pin seleccionado (0 o 1).
 
 ![](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/image11.png)
 
-verificamos que el archivo de dispositivo existe, lo cual confirma que el módulo fue cargado correctamente y que el dispositivo está disponible para su uso.
+Verificamos que el archivo de dispositivo existe, lo cual confirma que el módulo fue cargado correctamente y que el dispositivo está disponible para su uso.
 
 ![](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/image12.png)
 
@@ -646,11 +693,13 @@ Tenemos entonces ahora nuestra interfaz entre el espacio de kernel y el espacio 
 
 ![](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/image13.png)
 
--   El dispositivo /dev/signal_dev_TP5 está accesible.    
--   Con el comando cat podemos ver que la lectura devuelve valores 0 y 1, alternando correctamente.      
--   ¡Las señales externas están siendo sensadas a través del CDD!
+Es decir. el dispositivo /dev/signal_dev_TP5 está accesible. Con el comando cat podemos ver que la lectura devuelve valores 0 y 1, alternando correctamente, dado que las señales externas están siendo sensadas a través del CDD.
 
-El comando echo '0' > /dev/signal_dev_TP5 le indica al driver que vea el valor del pin GPIO17 y con cat /dev/signal_dev_TP5 leemos el valor del pin. Por el contrario, si le enviamos un 1 pasa a registrar el valor del pin GPIO27. Ahora agreguemos funcionalidades y mejoremos la experiencia de usuario con una interfaz grafica.
+
+
+
+
+### Interfaz de usuario
 Se implementa una interfaz de usuario a través de una aplicación desarrollada con Streamlit, que permite seleccionar qué señal graficar, ya sea la señal 0 (correspondiente al pin GPIO17) o la señal 1 (pin GPIO27). La aplicación genera en tiempo real un gráfico que muestra la evolución del valor leído en el pin seleccionado. Además, incluye una opción para reiniciar el gráfico, permitiendo al usuario comenzar una nueva visualización desde cero en cualquier momento.
 
 ![](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/interfaz.png)
