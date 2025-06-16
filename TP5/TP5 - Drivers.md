@@ -525,10 +525,6 @@ A través de una aplicación de usuario, se debe poder:
 Al cambiar de señal:
 -   El gráfico debe reiniciarse y adaptarse a la nueva medición.
 
-Las correcciones de escala, si fueran necesarias, deben aplicarse en la aplicación de usuario, no en el driver.
-Esta práctica busca comprender el rol del device driver como pieza clave en la comunicación entre el sistema operativo y los dispositivos periféricos, enfocándose en el caso particular de señales digitales.  
-Además, se explora la diferencia entre software drivers y hardware controllers, un concepto fundamental en sistemas operativos y arquitectura de computadoras.
-
 
 ### Raspberry Pi 3B emulada con QEMU
 ---
@@ -545,15 +541,16 @@ Para el proyecto qemu-rpi-gpio se utilizó un entorno virtual.
 
 A continuación, debemos descargar y preparar la imagen de Raspbian (OS para Raspberry Pi).
 
+```bash
 wget https://downloads.raspberrypi.com/raspios_lite_arm64/images/raspios_lite_arm64-2024-03-15/2024-03-15-raspios-bookworm-arm64-lite.img.xz
 unxz 2024-03-15-raspios-bookworm-arm64-lite.img.xz
 qemu-img resize 2024-03-15-raspios-bookworm-arm64-lite.img 8G
-
-NOTA sobre los 8 GB: se aumenta el tamaño del archivo de imagen del sistema operativo a 8 gigabytes porque, por defecto, muchas imágenes de sistemas embebidos vienen con un tamaño mínimo justo para arrancar y contener sólo lo esencial del sistema operativo, lo cual no nos sirve si buscamos construir nuevos drivers.
+```
+*Nota sobre los 8 GB: se aumenta el tamaño del archivo de imagen del sistema operativo a 8 gigabytes porque, por defecto, muchas imágenes de sistemas embebidos vienen con un tamaño mínimo justo para arrancar y contener sólo lo esencial del sistema operativo, lo cual no nos sirve si buscamos construir nuevos drivers.*
 
 ![](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/image6.png)
 
-Ahora, aun desde Linux nativo debemos montar la imagen para extraer los archivos necesaria para QEMU pueda emular. Se van a extraer dos archivos clave:
+Ahora, aún desde Linux nativo debemos montar la imagen para extraer los archivos necesaria para QEMU pueda emular. Se van a extraer dos archivos clave:
 -   kernel8.img (el kernel ARM para Raspberry Pi 64 bits)     
 -   El archivo .dtb (device tree binary para Raspberry Pi 3B+)  
  
@@ -591,16 +588,18 @@ Veamos el resultado:
 De los archivos que observamos que se copiaron en la carpeta /rootfs, nosotros necesitamos el device tree blob bcm2710-rpi-3-b-plus.dtb, porque se está emulando una Raspberry Pi 3B+, que usa el SoC Broadcom BCM2710. Tambien necesitamos la imagen del núcleo de Linux compilada para arquitectura ARM de 64 bits (AArch64) . Esto es porque QEMU no arranca la imagen de Raspbian como una PC (con BIOS o GRUB), sino como una Raspberry real: necesita que le des el kernel (kernel8.img) y el device tree (.dtb) explícitamente.
 
 
-A continuación, se debe construir un script de shell basado en el script run.sh del proyecto qemu-rpi-gpio. Este script implementa un gestor virtual de pines GPIO que se comunica con QEMU a través de un socket UNIX (/tmp/tmp-gpio.sock) usando socat. Utiliza las direcciones de memoria mapeadas de los GPIO de la Raspberry Pi 3B para simular lecturas y escrituras sobre los registros de control de pines.
+A continuación, se debe construir un script de shell basado en el script run.sh del proyecto qemu-rpi-gpio. Este busca lanzar una instancia de emulación de una Raspberry Pi 3B utilizando QEMU junto con una imagen del sistema operativo Raspbian (raspios), con ciertas especifiaciones, tales como el modelo de la placa que buscamos emular o el device tree blob.
 
-De esta forma, desde una terminal simlulamos las entradas GPIO
+Por otro lado, debemos correr un script de Python que implementa un gestor virtual de pines GPIO que se comunica con QEMU a través de un socket UNIX (/tmp/tmp-gpio.sock) usando socat. Utiliza las direcciones de memoria mapeadas de los GPIO de la Raspberry Pi 3B para simular lecturas y escrituras sobre los registros de control de pines.
+
+De esta forma, desde una terminal simulamos las entradas GPIO
 ```bash
 cd ~/qemu-rpi
 source venv/bin/activate
 python qemu_rpi_gpio.py
 ```
 
-Y desde otra ventan levantamos la Raspberry Pi emulada:    
+Y desde otra terminal levantamos la Raspberry Pi emulada:    
 ```bash
 cd ~/qemu-rpi
 ./run.sh
