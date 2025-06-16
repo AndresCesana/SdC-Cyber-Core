@@ -1,44 +1,4 @@
 ﻿
-<style>
-
-/* --- Ajustes rápidos de formato para StackEdit --- */
-
-h1 {
-
-border: 1px solid #000;
-
-padding: 8px 14px;
-
-border-radius: 2px;
-
-margin-bottom: 24px;
-
-}
-
-hr {
-
-border: none;
-
-border-top: 1px solid #aaa;
-
-margin: 32px 0;
-
-}
-
-/* Centrar las imágenes de portada */
-
-.cover-img {
-
-display: block;
-
-margin: 12px auto;
-
-max-width: 90%;
-
-}
-
-</style>
-
 # Sistemas de Computación
 
   
