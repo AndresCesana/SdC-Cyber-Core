@@ -603,7 +603,7 @@ Y desde otra terminal levantamos la Raspberry Pi emulada:
 ```bash
 cd ~/qemu-rpi
 ./run.sh
-```bash
+```
 
 Esto lanza la VM de Raspbian.La primera vez que se ingresa solicita una configuración inicial.
 
@@ -624,14 +624,14 @@ Verificamos que esté corriendo:
 ```bash
 sudo systemctl status ssh
 ```
-Desde la máquina host (Linux Mint), abrimoss una terminal nueva y ejecutamos:
+Desde la máquina host (Linux Mint), abrimos una terminal nueva y ejecutamos:
 ```bash
 ssh felipe@127.0.0.1 -p 50022
 ```
 
 ![](https://raw.githubusercontent.com/solnou/SdC-Cyber-Core/main/TP5/Imagenes/ssh_established.png)
 
-Una vez configurado el acceso SSH y antes de comenzar con la construccion del CDD propiamente dicha, el utimo es hacer efectivo el aumento del tamaño de la imagen que hicimos anteriormente con:
+Una vez configurado el acceso SSH y antes de comenzar con la construccion del CDD propiamente dicha, el último paso es hacer efectivo el aumento del tamaño de la imagen que hicimos anteriormente con:
 ```bash
 sudo raspi-config
 ```
