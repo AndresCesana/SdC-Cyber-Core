@@ -1,0 +1,46 @@
+Script started on 2025-06-14 14:26:32-03:00 [TERM="xterm-256color" TTY="/dev/pts/7" COLUMNS="80" LINES="24"]
+[?2004h]0;andresces@andresces-IdeaPad-3-15ITL6: ~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv4/codigo[01;32mandresces@andresces-IdeaPad-3-15ITL6[00m:[01;34m~/TP5-SdC1/src/SdC-Cyber-Core/TP5/drv4/codigo[00m$ [7msudo insmod drv4.ko[27m
+[7msudo dmesg | tail -5                  # verás <major,minor>[27m
+[7mecho "X" | sudo tee /dev/SdeC_drv4    # escribe un byte[27m
+[7msudo dmesg | tail -5[27m
+[7msudo cat /dev/SdeC_drv4               # debe devolver X[27m
+[7msudo dmesg | tail -5[27m
+[7msudo rmmod drv4[27m
+[7msudo dmesg | tail -5[27m
+[7mexit                                   # cierra script[27m
+[A[A[A[A[A[A[A[A[A[C[C[C[Csudo insmod drv4.ko
+sudo dmesg | tail -5                  # verás <major,minor>
+echo "X" | sudo tee /dev/SdeC_drv4    # escribe un byte
+sudo dmesg | tail -5
+sudo cat /dev/SdeC_drv4               # debe devolver X
+sudo dmesg | tail -5
+sudo rmmod drv4
+sudo dmesg | tail -5
+exit                                   # cierra script
+[A
+[?2004l[sudo] contraseña para andresces: 
+[ 8044.594123] drv3: read
+[ 8044.594138] drv3: close
+[ 8044.620828] drv3: unloaded
+[ 9002.556170] drv4: loading
+[ 9002.556273] drv4: <major,minor>=<511,0>
+X
+[ 9002.556170] drv4: loading
+[ 9002.556273] drv4: <major,minor>=<511,0>
+[ 9002.575541] drv4: open
+[ 9002.575552] drv4: write
+[ 9002.575554] drv4: close
+
+[ 9002.575554] drv4: close
+[ 9002.596616] drv4: open
+[ 9002.596626] drv4: read
+[ 9002.596637] drv4: read
+[ 9002.596647] drv4: close
+[ 9002.596616] drv4: open
+[ 9002.596626] drv4: read
+[ 9002.596637] drv4: read
+[ 9002.596647] drv4: close
+[ 9002.619340] drv4: unloaded
+exit
+
+Script done on 2025-06-14 14:26:46-03:00 [COMMAND_EXIT_CODE="0"]

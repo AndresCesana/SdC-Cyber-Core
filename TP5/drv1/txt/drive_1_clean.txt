@@ -1,0 +1,26 @@
+Script started on 2025-06-14 12:33:49-03:00 [TERM="xterm-256color" TTY="/dev/pts/1" COLUMNS="80" LINES="24"]
+?2004h0;andresces@andresces-IdeaPad-3-15ITL6: ~/TP5-SdC1/src01;32mandresces@andresces-IdeaPad-3-15ITL600m:01;34m~/TP5-SdC1/src00m$ 7msudo insmod drv1.ko27m
+7msudo dmesg | tail -n 527m
+AACCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCsudo insmod drv1.ko
+sudo dmesg | tail -n 5
+A
+[sudo] contraseña para andresces:
+[  275.058617] SdeC: drv1 cargado
+[  303.882721] SdeC: drv1 descargado
+[  547.082773] SdeC: drv1 cargado
+[  567.713531] SdeC: drv1 descargado
+[ 2237.762936] SdeC: drv1 cargado
+?2004h0;andresces@andresces-IdeaPad-3-15ITL6: ~/TP5-SdC1/src01;32mandresces@andresces-IdeaPad-3-15ITL600m:01;34m~/TP5-SdC1/src00m$ 7msudo rmmod drv127m
+7msudo dmesg | tail -n 527m
+AACCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCsudo rmmod drv1
+sudo dmesg | tail -n 5
+A
+[20303.882721] SdeC: drv1 descargado
+[  547.082773] SdeC: drv1 cargado
+[  567.713531] SdeC: drv1 descargado
+[ 2237.762936] SdeC: drv1 cargado
+[ 2250.139672] SdeC: drv1 descargado
+?2004h0;andresces@andresces-IdeaPad-3-15ITL6: ~/TP5-SdC1/src01;32mandresces@andresces-IdeaPad-3-15ITL600m:01;34m~/TP5-SdC1/src00m$ exit
+exit4l
+
+Script done on 2025-06-14 12:34:27-03:00 [COMMAND_EXIT_CODE="0"]

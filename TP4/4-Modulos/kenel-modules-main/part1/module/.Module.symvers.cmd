@@ -1,0 +1,1 @@
+savedcmd_/home/sol/Documentos/SdC-Cyber-Core/TP4/4-Modulos/kenel-modules-main/part1/module/Module.symvers :=  scripts/mod/modpost -M -m -a      -o /home/sol/Documentos/SdC-Cyber-Core/TP4/4-Modulos/kenel-modules-main/part1/module/Module.symvers -T /home/sol/Documentos/SdC-Cyber-Core/TP4/4-Modulos/kenel-modules-main/part1/module/modules.order -i Module.symvers -e 
